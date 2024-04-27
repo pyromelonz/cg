@@ -9,7 +9,16 @@ configure_file(CGConfig.h.in CGConfig.h)
 
 add_executable(CG src/main.cpp)
 
+target_sources(CG PUBLIC
+               "${PROJECT_SOURCE_DIR}/src/main.cpp"
+               "${PROJECT_SOURCE_DIR}/vendor/glad/src/glad.c")
+
 target_include_directories(CG PUBLIC
                            "${PROJECT_BINARY_DIR}"
                            "${PROJECT_SOURCE_DIR}/vendor/glad/include"
+                           "${PROJECT_SOURCE_DIR}/vendor/glfw/include"
                            )
+
+target_link_libraries(CG glfw)
+
+add_subdirectory(vendor/glfw)
