@@ -27,9 +27,13 @@ void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 int main()
 {
     glfwInit();
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+#ifdef __APPLE__
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+#endif
 
     GLFWwindow *window = glfwCreateWindow(800, 600, "Super fancy window", NULL, NULL);
     if (window == NULL)
@@ -119,6 +123,10 @@ int main()
     glBindVertexArray(0);
 
     FrameLimiter limiter;
+    std::cout << "OpenGL version: " << glGetString(GL_VERSION) << std::endl;
+#ifdef __APPLE__
+    bool hasWindowBeenFixed = false;
+#endif
     while (!glfwWindowShouldClose(window))
     {
 
@@ -132,6 +140,13 @@ int main()
 
         glfwSwapBuffers(window);
         glfwPollEvents();
+#ifdef __APPLE__
+        if (!hasWindowBeenFixed)
+        {
+            hasWindowBeenFixed = true;
+            glfwSetWindowPos(window, 50, 50);
+        }
+#endif
 
         limiter.next_frame();
     }
