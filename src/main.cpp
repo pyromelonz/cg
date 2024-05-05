@@ -1,23 +1,11 @@
 #include <iostream>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <fstream>
+#include <sstream>
 
 #include "frame_limiter.h"
 #include "CGConfig.h"
-
-const char *vertexShaderSource = "#version 330 core\n"
-                                 "layout (location = 0) in vec3 aPos;\n"
-                                 "void main()\n"
-                                 "{\n"
-                                 " gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-                                 "}\0";
-
-const char *fragmentShaderSource = "#version 330 core\n"
-                                   "out vec4 FragColor;\n"
-                                   "void main()\n"
-                                   "{\n"
-                                   "FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
-                                   "}\0";
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 {
@@ -54,9 +42,25 @@ int main()
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
     unsigned int vertexShader;
-    vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-    glCompileShader(vertexShader);
+    {
+        std::ifstream fs("assets/shaders/basic.vs");
+        if (!fs || fs.bad())
+        {
+            std::cout << "Failed to open file" << std::endl;
+            return -1;
+        }
+        std::stringstream buffer;
+        std::string line;
+        while (std::getline(fs, line))
+        {
+            buffer << line << std::endl;
+        }
+        std::string str = buffer.str();
+        const char *src = str.c_str();
+        vertexShader = glCreateShader(GL_VERTEX_SHADER);
+        glShaderSource(vertexShader, 1, &src, NULL);
+        glCompileShader(vertexShader);
+    }
 
     int success;
     char infoLog[512];
@@ -69,10 +73,25 @@ int main()
     }
 
     unsigned int fragmentShader;
-    fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-    glCompileShader(fragmentShader);
-
+    {
+        std::ifstream fs("assets/shaders/basic.fs");
+        if (!fs || fs.bad())
+        {
+            std::cout << "Failed to open file" << std::endl;
+            return -1;
+        }
+        std::stringstream buffer;
+        std::string line;
+        while (std::getline(fs, line))
+        {
+            buffer << line << std::endl;
+        }
+        std::string str = buffer.str();
+        const char *src = str.c_str();
+        fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+        glShaderSource(fragmentShader, 1, &src, NULL);
+        glCompileShader(fragmentShader);
+    }
     glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
     if (!success)
     {
