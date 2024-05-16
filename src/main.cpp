@@ -50,7 +50,6 @@ int main()
 
     ObjectManager object_manager;
     object_manager.add_object(GFX_Object(vertices,9));
-
     object_manager.initialise_objects();
 
     FrameLimiter limiter;
@@ -66,10 +65,7 @@ int main()
 
         // draw our first triangle
         shader.Use();
-        object_manager.bind_current_vao();
-        //glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
-        glDrawArrays(GL_TRIANGLES, 0, 3);
-
+        object_manager.render_all();
         glfwSwapBuffers(window);
         glfwPollEvents();
 #ifdef __APPLE__

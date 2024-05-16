@@ -11,7 +11,11 @@ class GFX_Object {
     public:
     GFX_Object(float* p_model_data, unsigned model_data_size);
     void initialise_buffers();
-    void bind_vertices();
+    virtual void render();
+    void bind_and_render();
+    void bind();
+    void process();
+    void physics_process();
     void set_vbo_vao(unsigned vbo, unsigned vao);
     ~GFX_Object();
 };
@@ -21,5 +25,5 @@ class ObjectManager {
     public:
     void initialise_objects();
     void add_object(GFX_Object&& obj);
-    int bind_current_vao();
+    void render_all();
 };

@@ -39,21 +39,25 @@ void GFX_Object::initialise_buffers() {
     glBindVertexArray(0);
 }
 
-void GFX_Object::bind_vertices() {
+void GFX_Object::bind() {
     glBindVertexArray(vao);
+}
+
+void GFX_Object::bind_and_render() {
+    bind();
+    render();
+}
+
+void GFX_Object::render() {
+    glDrawArrays(GL_TRIANGLES, 0, 3);
 }
 
 void ObjectManager::add_object(GFX_Object&& obj) {
     objs.push_back(obj);
 }
 
-int ObjectManager::bind_current_vao() {
-    if (objs.empty()) {
-        return -1;
-    } else {
-        objs[0].bind_vertices();
-    }
-    return 0;
+void ObjectManager::render_all() {
+    for (GFX_Object& o : objs) o.bind_and_render();
 }
 
 GFX_Object::~GFX_Object() {
