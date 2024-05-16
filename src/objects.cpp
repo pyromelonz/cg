@@ -1,4 +1,4 @@
-#include "object_manager.h"
+#include "objects.h"
 #include "global_includes.h"
 #include <cstring>
 
@@ -8,8 +8,8 @@ void ObjectManager::initialise_objects() {
     glGenVertexArrays(vaos.size(), vaos.data());
     glGenBuffers(vbos.size(),vbos.data());
     for (unsigned i = 0; i<objs.size(); i++) {
-        objs[i].set_vbo_vao(vbos[i],vaos[i]);
-        objs[i].initialise_buffers();
+        objs[i]->set_vbo_vao(vbos[i],vaos[i]);
+        objs[i]->initialise_buffers();
     }
 }
 
@@ -52,12 +52,12 @@ void GFX_Object::render() {
     glDrawArrays(GL_TRIANGLES, 0, 3);
 }
 
-void ObjectManager::add_object(GFX_Object&& obj) {
-    objs.push_back(obj);
+void ObjectManager::add_object(std::unique_ptr<GFX_Object>&& obj) {
+    objs.push_back(std::move(obj));
 }
 
 void ObjectManager::render_all() {
-    for (GFX_Object& o : objs) o.bind_and_render();
+    for (auto& o : objs) o->bind_and_render();
 }
 
 GFX_Object::~GFX_Object() {

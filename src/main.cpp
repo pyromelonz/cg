@@ -3,7 +3,8 @@
 #include "global_includes.h"
 #include "frame_limiter.h"
 #include "CGConfig.h"
-#include "object_manager.h"
+#include "objects.h"
+#include "circle.h"
 #include "shader.h"
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height)
@@ -49,7 +50,8 @@ int main()
     };
 
     ObjectManager object_manager;
-    object_manager.add_object(GFX_Object(vertices,9));
+    //object_manager.add_object(std::make_unique<GFX_Object>(vertices,9));
+    object_manager.add_object(std::make_unique<Circle>(0.2f,0.5f,0.5f));
     object_manager.initialise_objects();
 
     FrameLimiter limiter;
