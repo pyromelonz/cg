@@ -1,8 +1,6 @@
 #include <iostream>
-#include "global_includes.h"
-#include <fstream>
-#include <sstream>
 
+#include "global_includes.h"
 #include "frame_limiter.h"
 #include "CGConfig.h"
 #include "shader.h"
@@ -41,25 +39,7 @@ int main()
     glViewport(0, 0, 800, 600);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
-    Shader vertexShader("assets/shader/basic.vs");
-    Shader fragmentShader("assets/shader/basic.fs");
-
-    unsigned int shaderProgram;
-    shaderProgram = glCreateProgram();
-    glAttachShader(shaderProgram, vertexShader.shader_id);
-    glAttachShader(shaderProgram, fragmentShader.shader_id);
-    glLinkProgram(shaderProgram);
-
-    GLint success;
-    GLchar infoLog[512];
-
-    glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-    if (!success)
-    {
-        glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-        std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n"
-                  << infoLog << std::endl;
-    }
+    Shader shader("assets/shaders/basic.vs", "assets/shaders/basic.fs", nullptr);
 
     float vertices[] = {
         -0.5f, -0.5f, 0.0f, // left
@@ -98,7 +78,7 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT);
 
         // draw our first triangle
-        glUseProgram(shaderProgram);
+        shader.Use();
         glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
         glDrawArrays(GL_TRIANGLES, 0, 3);
 
@@ -117,7 +97,6 @@ int main()
 
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
-    glDeleteProgram(shaderProgram);
 
     glfwTerminate();
     return 0;
