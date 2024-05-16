@@ -1,11 +1,11 @@
 #include <iostream>
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+#include "global_includes.h"
 #include <fstream>
 #include <sstream>
 
 #include "frame_limiter.h"
 #include "CGConfig.h"
+#include "shader.h"
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 {
@@ -41,70 +41,17 @@ int main()
     glViewport(0, 0, 800, 600);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
-    unsigned int vertexShader;
-    {
-        std::ifstream fs("assets/shaders/basic.vs");
-        if (!fs || fs.bad())
-        {
-            std::cout << "Failed to open file" << std::endl;
-            return -1;
-        }
-        std::stringstream buffer;
-        std::string line;
-        while (std::getline(fs, line))
-        {
-            buffer << line << std::endl;
-        }
-        std::string str = buffer.str();
-        const char *src = str.c_str();
-        vertexShader = glCreateShader(GL_VERTEX_SHADER);
-        glShaderSource(vertexShader, 1, &src, NULL);
-        glCompileShader(vertexShader);
-    }
-
-    int success;
-    char infoLog[512];
-    glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-    if (!success)
-    {
-        glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-        std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n"
-                  << infoLog << std::endl;
-    }
-
-    unsigned int fragmentShader;
-    {
-        std::ifstream fs("assets/shaders/basic.fs");
-        if (!fs || fs.bad())
-        {
-            std::cout << "Failed to open file" << std::endl;
-            return -1;
-        }
-        std::stringstream buffer;
-        std::string line;
-        while (std::getline(fs, line))
-        {
-            buffer << line << std::endl;
-        }
-        std::string str = buffer.str();
-        const char *src = str.c_str();
-        fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-        glShaderSource(fragmentShader, 1, &src, NULL);
-        glCompileShader(fragmentShader);
-    }
-    glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-    if (!success)
-    {
-        glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-        std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n"
-                  << infoLog << std::endl;
-    }
+    Shader vertexShader("assets/shader/basic.vs");
+    Shader fragmentShader("assets/shader/basic.fs");
 
     unsigned int shaderProgram;
     shaderProgram = glCreateProgram();
-    glAttachShader(shaderProgram, vertexShader);
-    glAttachShader(shaderProgram, fragmentShader);
+    glAttachShader(shaderProgram, vertexShader.shader_id);
+    glAttachShader(shaderProgram, fragmentShader.shader_id);
     glLinkProgram(shaderProgram);
+
+    GLint success;
+    GLchar infoLog[512];
 
     glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
     if (!success)
@@ -113,8 +60,6 @@ int main()
         std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n"
                   << infoLog << std::endl;
     }
-    glDeleteShader(vertexShader);
-    glDeleteShader(fragmentShader);
 
     float vertices[] = {
         -0.5f, -0.5f, 0.0f, // left
