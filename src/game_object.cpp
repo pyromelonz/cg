@@ -1,4 +1,5 @@
 #include "game_object.h"
+#include <algorithm>
 
 void GameObjectManager::AddGameObject(GameObject *gameObject)
 {
@@ -7,7 +8,7 @@ void GameObjectManager::AddGameObject(GameObject *gameObject)
 
 void GameObjectManager::RemoveGameObject(GameObject *gameObject)
 {
-    gameObjects.erase(std::remove(gameObjects.begin(), gameObjects.end(), gameObject), gameObjects.end());
+    std::remove(gameObjects.begin(), gameObjects.end(), gameObject);
 }
 
 void GameObjectManager::Update()
