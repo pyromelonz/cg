@@ -1,11 +1,14 @@
 #pragma once
 #include <vector>
-class GameObject
+#include <memory>
+#include "components/component.h"
+
+class Entity : public Component //because I'm wild like that
 {
-public:
-    virtual void Update() = 0;
-    virtual void FixedUpdate() = 0;
-    virtual void Draw() = 0;
+    std::vector<std::unique_ptr<Component>> components;
+    public:
+    void Update() override;
+    void FixedUpdate() override;
 };
 
 struct Mouse
@@ -14,33 +17,31 @@ struct Mouse
     double y;
 };
 
-class GameObjectManager
+class EntityManager
 {
 public:
-    static GameObjectManager &instance()
+    static EntityManager &instance()
     {
-        static GameObjectManager instance;
+        static EntityManager instance;
         return instance;
     }
 
     Mouse mouse;
 
     // Add a game object to the manager
-    void AddGameObject(GameObject *gameObject);
+    void AddGameObject(Entity *gameObject);
     // Remove a game object from the manager
-    void RemoveGameObject(GameObject *gameObject);
+    void RemoveGameObject(Entity *gameObject);
     // Called once per frame
     void Update();
     // Called once per fixed amount of time, currently unused
     void FixedUpdate();
-    // Called once per frame after Update
-    void Draw();
 
 private:
-    GameObjectManager(){};
+    EntityManager(){};
 
-    GameObjectManager(GameObjectManager const &);
-    void operator=(GameObjectManager const &);
+    EntityManager(EntityManager const &) = delete;
+    void operator=(EntityManager const &) = delete;
 
-    std::vector<GameObject *> gameObjects;
+    std::vector<Entity*> gameObjects;
 };

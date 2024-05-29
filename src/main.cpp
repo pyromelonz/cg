@@ -20,8 +20,8 @@ static void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 
 static void cursor_position_callback(GLFWwindow *window, double xpos, double ypos)
 {
-    GameObjectManager::instance().mouse.x = xpos;
-    GameObjectManager::instance().mouse.y = ypos;
+    EntityManager::instance().mouse.x = xpos;
+    EntityManager::instance().mouse.y = ypos;
 }
 
 int main()
@@ -57,11 +57,10 @@ int main()
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     glfwSetCursorPosCallback(window, cursor_position_callback);
 
-    Shader shader("assets/shaders/basic.vs", "assets/shaders/basic.fs", nullptr);
     for (int i = 0; i < 300; i++)
     {
         Quad *quad = new Quad(((float)rand() / (float)(RAND_MAX) * 2) - 1.0f, ((float)rand() / (float)(RAND_MAX) * 2) - 1.0f, 0.01f, 0.01f, &shader);
-        GameObjectManager::instance().AddGameObject(quad);
+        EntityManager::instance().AddGameObject(quad);
     }
 
     FrameLimiter limiter(120);
@@ -75,8 +74,7 @@ int main()
         glClearColor(0, 0, 0, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        GameObjectManager::instance().Update();
-        GameObjectManager::instance().Draw();
+        EntityManager::instance().Update();
 
         glfwSwapBuffers(window);
         glfwPollEvents();

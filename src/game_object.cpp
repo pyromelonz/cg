@@ -1,17 +1,17 @@
 #include "game_object.h"
 #include <algorithm>
 
-void GameObjectManager::AddGameObject(GameObject *gameObject)
+void EntityManager::AddGameObject(Entity *gameObject)
 {
     gameObjects.push_back(gameObject);
 }
 
-void GameObjectManager::RemoveGameObject(GameObject *gameObject)
+void EntityManager::RemoveGameObject(Entity *gameObject)
 {
     std::remove(gameObjects.begin(), gameObjects.end(), gameObject);
 }
 
-void GameObjectManager::Update()
+void EntityManager::Update()
 {
     for (auto gameObject : gameObjects)
     {
@@ -19,7 +19,7 @@ void GameObjectManager::Update()
     }
 }
 
-void GameObjectManager::FixedUpdate()
+void EntityManager::FixedUpdate()
 {
     for (auto gameObject : gameObjects)
     {
@@ -27,10 +27,10 @@ void GameObjectManager::FixedUpdate()
     }
 }
 
-void GameObjectManager::Draw()
-{
-    for (auto gameObject : gameObjects)
-    {
-        gameObject->Draw();
-    }
+void Entity::Update() {
+    for (auto& c : components) c->Update();
+}
+
+void Entity::FixedUpdate() {
+    for (auto& c : components) c->FixedUpdate();
 }

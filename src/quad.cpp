@@ -41,7 +41,7 @@ Quad::~Quad()
 
 void Quad::Update()
 {
-    GameObjectManager &manager = GameObjectManager::instance();
+    EntityManager &manager = EntityManager::instance();
     float mouse_x = manager.mouse.x / (800 / 2) - 1.0f;
     float mouse_y = -1 * (manager.mouse.y / (600 / 2) - 1.0f);
     if (sqrt(pow((x - mouse_x), 2) + pow((y - mouse_y), 2)) < 0.1)
