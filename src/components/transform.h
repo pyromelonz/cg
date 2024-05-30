@@ -10,12 +10,12 @@
 
 class Transform : public Component {
     CGQUAT rotation;
+    CGXYZ pos, scale;
     public:
     void Update() override;
     void FixedUpdate() override;
+    CGXYZ getPos();
     void Init() override {};
     CGMAT4 getMatrix() const noexcept;
     void rotate(CGXYZ vec, double angle) noexcept;
-    double scaleX, scaleY, scaleZ;
-    double x,y,z;
 };

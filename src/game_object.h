@@ -3,13 +3,6 @@
 #include <memory>
 #include "components/component.h"
 
-class Entity : public Component //because I'm wild like that
-{
-    std::vector<std::unique_ptr<Component>> components;
-    public:
-    void Update() override;
-    void FixedUpdate() override;
-};
 
 struct Mouse
 {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "global_includes.h"
+#include "glm/glm.hpp"
 #include "global_defines.h"
 
 struct Vertex {
