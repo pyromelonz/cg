@@ -14,7 +14,7 @@ class Transform : public Component {
     public:
     void Update() override;
     void FixedUpdate() override;
-    CGXYZ getPos();
+    CGXYZ getPos() const;
     void Init() override {};
     CGMAT4 getMatrix() const noexcept;
     void rotate(CGXYZ vec, double angle) noexcept;

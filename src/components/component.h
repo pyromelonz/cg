@@ -2,7 +2,7 @@
 #include <memory>
 #include <vector>
 
-typedef Entity;
+class Entity;
 
 class Component
 {
@@ -28,9 +28,10 @@ class Entity : public Component //because I'm wild like that
     void FixedUpdate() override;
     template<typename ComponentType>
     ComponentType* getComponent() {
-        for (const auto& c : components)
-            if (dynamic_cast<ComponentType>(c))
-                return c;
+        for (const auto& c : components) {
+            auto pointer = dynamic_cast<ComponentType*>(c.get());
+                if (pointer) return pointer;
+            }  
         return nullptr;
     }
 };

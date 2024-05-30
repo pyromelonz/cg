@@ -1,10 +1,11 @@
 #include <iostream>
 
-#include "global_includes.h"
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
 #include "frame_limiter.h"
 #include "CGConfig.h"
 #include "shader.h"
-#include "quad.h"
+#include "game_object.h"
 
 #define WIDTH 800
 #define HEIGHT 600
@@ -56,12 +57,12 @@ int main()
 
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     glfwSetCursorPosCallback(window, cursor_position_callback);
-
+/*
     for (int i = 0; i < 300; i++)
     {
         Quad *quad = new Quad(((float)rand() / (float)(RAND_MAX) * 2) - 1.0f, ((float)rand() / (float)(RAND_MAX) * 2) - 1.0f, 0.01f, 0.01f, &shader);
         EntityManager::instance().AddGameObject(quad);
-    }
+    }*/
 
     FrameLimiter limiter(120);
     std::cout << "OpenGL version: " << glGetString(GL_VERSION) << std::endl;
