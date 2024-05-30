@@ -6,6 +6,7 @@
 #include "CGConfig.h"
 #include "shader.h"
 #include "game_object.h"
+#include "input.h"
 
 #define WIDTH 800
 #define HEIGHT 600
@@ -21,8 +22,7 @@ static void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 
 static void cursor_position_callback(GLFWwindow *window, double xpos, double ypos)
 {
-    EntityManager::instance().mouse.x = xpos;
-    EntityManager::instance().mouse.y = ypos;
+    Input::instance().SetCursorPosCallback(window, xpos, ypos);
 }
 
 int main()
@@ -57,12 +57,6 @@ int main()
 
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     glfwSetCursorPosCallback(window, cursor_position_callback);
-/*
-    for (int i = 0; i < 300; i++)
-    {
-        Quad *quad = new Quad(((float)rand() / (float)(RAND_MAX) * 2) - 1.0f, ((float)rand() / (float)(RAND_MAX) * 2) - 1.0f, 0.01f, 0.01f, &shader);
-        EntityManager::instance().AddGameObject(quad);
-    }*/
 
     FrameLimiter limiter(120);
     std::cout << "OpenGL version: " << glGetString(GL_VERSION) << std::endl;
