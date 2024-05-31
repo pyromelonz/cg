@@ -11,24 +11,10 @@
 #define WIDTH 800
 #define HEIGHT 600
 
-static void framebuffer_size_callback(GLFWwindow *window, int width, int height)
-{
-    glViewport(0, 0, width, height);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glOrtho(0.0f, width, height, 0.0f, 0.0f, 1.0f);
-    glMatrixMode(GL_MODELVIEW);
-}
-
-static void cursor_position_callback(GLFWwindow *window, double xpos, double ypos)
-{
-    Input::instance().SetCursorPosCallback(window, xpos, ypos);
-}
-
-static void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods)
-{
-    Input::instance().SetKeyCallback(window, key, scancode, action, mods);
-}
+static void framebuffer_size_callback(GLFWwindow *window, int width, int height);
+static void cursor_position_callback(GLFWwindow *window, double xpos, double ypos);
+static void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods);
+static void mouse_button_callback(GLFWwindow *window, int button, int action, int mods);
 
 int main()
 {
@@ -63,6 +49,7 @@ int main()
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     glfwSetCursorPosCallback(window, cursor_position_callback);
     glfwSetKeyCallback(window, key_callback);
+    glfwSetMouseButtonCallback(window, mouse_button_callback);
 
     FrameLimiter limiter(120);
     std::cout << "OpenGL version: " << glGetString(GL_VERSION) << std::endl;
@@ -91,4 +78,28 @@ int main()
 
     glfwTerminate();
     return 0;
+}
+
+static void framebuffer_size_callback(GLFWwindow *window, int width, int height)
+{
+    glViewport(0, 0, width, height);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glOrtho(0.0f, width, height, 0.0f, 0.0f, 1.0f);
+    glMatrixMode(GL_MODELVIEW);
+}
+
+static void cursor_position_callback(GLFWwindow *window, double xpos, double ypos)
+{
+    Input::instance().SetCursorPosCallback(window, xpos, ypos);
+}
+
+static void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods)
+{
+    Input::instance().SetKeyCallback(window, key, scancode, action, mods);
+}
+
+static void mouse_button_callback(GLFWwindow *window, int button, int action, int mods)
+{
+    Input::instance().SetMouseButtonCallback(window, button, action, mods);
 }
