@@ -35,15 +35,15 @@ void Input::SetKeyCallback(GLFWwindow *window, int key, int scancode, int action
 
 bool Input::GetKeyDown(KeyCode key)
 {
-    return keys_once[key] == 1;
+    return keys_once[(size_t)key] == 1;
 }
 
 bool Input::GetKeyUp(KeyCode key)
 {
-    return keys_once[key] == 0;
+    return keys_once[(size_t)key] == 0;
 }
 
 bool Input::GetKey(KeyCode key)
 {
-    return keys[key];
+    return keys[(size_t)key];
 }
