@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.4...3.28 FATAL_ERROR)
 
 project(CG VERSION 1.0)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
@@ -25,6 +25,7 @@ target_sources(CG PUBLIC
                "${PROJECT_SOURCE_DIR}/src/components/mesh.cpp"
                "${PROJECT_SOURCE_DIR}/src/components/transform.cpp"
                "${PROJECT_SOURCE_DIR}/src/components/camera.cpp"
+               "${PROJECT_SOURCE_DIR}/src/shader_manager.cpp"
 
                "${PROJECT_SOURCE_DIR}/vendor/glad/src/glad.c")
 

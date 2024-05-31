@@ -26,6 +26,7 @@ class Entity : public Component //because I'm wild like that
     void addComponent(std::unique_ptr<Component>&&);
     void Update() override;
     void FixedUpdate() override;
+    void Init() override {}
     template<typename ComponentType>
     ComponentType* getComponent() {
         for (const auto& c : components) {

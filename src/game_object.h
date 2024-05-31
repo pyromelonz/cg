@@ -10,6 +10,7 @@ struct Mouse
     double y;
 };
 
+
 class EntityManager
 {
 public:
@@ -22,9 +23,9 @@ public:
     Mouse mouse;
 
     // Add a game object to the manager
-    void AddGameObject(Entity *gameObject);
+    void AddGameObject(std::unique_ptr<Entity>&& gameObject);
     // Remove a game object from the manager
-    void RemoveGameObject(Entity *gameObject);
+    void RemoveGameObject(Entity* gameObject);
     // Called once per frame
     void Update();
     // Called once per fixed amount of time, currently unused
@@ -36,5 +37,5 @@ private:
     EntityManager(EntityManager const &) = delete;
     void operator=(EntityManager const &) = delete;
 
-    std::vector<Entity*> gameObjects;
+    std::vector<std::unique_ptr<Entity>> gameObjects;
 };

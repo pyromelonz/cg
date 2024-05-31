@@ -8,10 +8,9 @@
 #include <glm/glm.hpp>
 #include "../vertex.h"
 
-class Transform : public Component {
+struct Transform : public Component {
     CGQUAT rotation;
     CGXYZ pos, scale;
-    public:
     void Update() override;
     void FixedUpdate() override;
     CGXYZ getPos() const;
