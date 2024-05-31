@@ -25,6 +25,11 @@ static void cursor_position_callback(GLFWwindow *window, double xpos, double ypo
     Input::instance().SetCursorPosCallback(window, xpos, ypos);
 }
 
+static void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods)
+{
+    Input::instance().SetKeyCallback(window, key, scancode, action, mods);
+}
+
 int main()
 {
     srand(time(NULL));
@@ -57,6 +62,7 @@ int main()
 
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     glfwSetCursorPosCallback(window, cursor_position_callback);
+    glfwSetKeyCallback(window, key_callback);
 
     FrameLimiter limiter(120);
     std::cout << "OpenGL version: " << glGetString(GL_VERSION) << std::endl;
@@ -70,7 +76,6 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT);
 
         EntityManager::instance().Update();
-
         glfwSwapBuffers(window);
         glfwPollEvents();
 #ifdef __APPLE__
@@ -80,7 +85,7 @@ int main()
             glfwSetWindowPos(window, 50, 50);
         }
 #endif
-
+        Input::instance().ClearOnceKeys();
         limiter.next_frame();
     }
 
