@@ -7,6 +7,10 @@
 #include "shader.h"
 #include "game_object.h"
 #include "input.h"
+#include "components/camera.h"
+#include "components/cube.h"
+#include "components/transform.h"
+#include <memory>
 
 #define WIDTH 800
 #define HEIGHT 600
@@ -50,6 +54,32 @@ int main()
     glfwSetCursorPosCallback(window, cursor_position_callback);
     glfwSetKeyCallback(window, key_callback);
     glfwSetMouseButtonCallback(window, mouse_button_callback);
+    
+    Shader shader("assets/shaders/basic.vs", "assets/shaders/basic.fs", nullptr);
+   
+    /*
+    for (int i = 0; i < 300; i++)
+    {
+        Quad *quad = new Quad(((float)rand() / (float)(RAND_MAX) * 2) - 1.0f, ((float)rand() / (float)(RAND_MAX) * 2) - 1.0f, 0.01f, 0.01f, &shader);
+        EntityManager::instance().AddGameObject(quad);
+    }*/
+
+    auto& EM = EntityManager::instance();
+
+    {
+        auto cam = std::make_unique<Entity>(), cube = std::make_unique<Entity>();
+        auto cam_trans = std::make_unique<Transform>();
+        cam_trans->pos = CGXYZ(0);
+        cam->addComponent(std::move(cam_trans));
+        cam->addComponent(std::make_unique<Camera>());
+        auto cube_trans = std::make_unique<Transform>();
+        cube_trans->pos = CGXYZ(2.0,0.0,0.0);
+        cube->addComponent(std::move(cube_trans));
+        cube->addComponent(std::make_unique<Cube>(&shader));
+
+        EM.AddGameObject(std::move(cam));
+        EM.AddGameObject(std::move(cube));
+    }
 
     FrameLimiter limiter(120);
     std::cout << "OpenGL version: " << glGetString(GL_VERSION) << std::endl;

@@ -1,19 +1,25 @@
 #include "game_object.h"
 #include <algorithm>
+#include "shader_manager.h"
 
-void EntityManager::AddGameObject(Entity *gameObject)
+void EntityManager::AddGameObject(std::unique_ptr<Entity>&& gameObject)
 {
-    gameObjects.push_back(gameObject);
+    gameObjects.push_back(std::move(gameObject));
 }
 
-void EntityManager::RemoveGameObject(Entity *gameObject)
+void EntityManager::RemoveGameObject(Entity* gameObject)
 {
-    std::remove(gameObjects.begin(), gameObjects.end(), gameObject);
+    for (unsigned i = 0; i<gameObjects.size(); i++) {
+        if (gameObjects[i].get() == gameObject) {
+            gameObjects.erase(gameObjects.begin()+i);
+        }
+    }
 }
 
 void EntityManager::Update()
 {
-    for (auto gameObject : gameObjects)
+    ShaderManager::instance.updateGlobals();
+    for (auto& gameObject : gameObjects)
     {
         gameObject->Update();
     }
@@ -21,16 +27,8 @@ void EntityManager::Update()
 
 void EntityManager::FixedUpdate()
 {
-    for (auto gameObject : gameObjects)
+    for (auto& gameObject : gameObjects)
     {
         gameObject->FixedUpdate();
     }
-}
-
-void Entity::Update() {
-    for (auto& c : components) c->Update();
-}
-
-void Entity::FixedUpdate() {
-    for (auto& c : components) c->FixedUpdate();
 }

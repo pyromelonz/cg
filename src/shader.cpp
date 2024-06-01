@@ -3,6 +3,9 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <algorithm>
+
+#include "shader_manager.h"
 
 Shader::Shader(const char *vertexPath, const char *fragmentPath, const char *geometryPath)
 {
@@ -17,10 +20,18 @@ Shader::Shader(const char *vertexPath, const char *fragmentPath, const char *geo
     {
         Compile(vertexSource.c_str(), fragmentSource.c_str(), nullptr);
     }
+    ShaderManager::instance.shaders.push_back(this);
 }
 
 Shader::~Shader()
 {
+    auto& shaders = ShaderManager::instance.shaders;
+    for (int i = 0; i<shaders.size(); i++)
+        if (shaders[i] == this) {
+            //erase shader pointer off shadermanager list once destructed
+            std::swap(shaders.back(),shaders[i]);
+            shaders.resize(shaders.size()-1);
+        }
     glDeleteProgram(this->ID);
 }
 

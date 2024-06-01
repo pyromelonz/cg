@@ -1,9 +1,14 @@
 #include "mesh.h"
 #include "../shader.h"
+#include "transform.h"
 
 void Mesh::Update() {
-    static Shader shader("assets/shaders/basic.vs", "assets/shaders/basic.fs", nullptr);
-    shader.Use();
+    pShader->Use();
+    Transform* transform = pEntity->getComponent<Transform>();
+    if (transform) {
+        auto modelMatrix = transform->getMatrix();
+        glUniformMatrix4dv(2,1,0,&modelMatrix[0][0]);
+        }
     glBindVertexArray(vao);
     glDrawElements(GL_TRIANGLES, sizeof(indices), GL_UNSIGNED_INT,0 );
     glBindVertexArray(0);
@@ -26,4 +31,9 @@ void Mesh::Init() {
 
     glVertexAttribPointer(0, vertices.size(), GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)0);
     glEnableVertexAttribArray(0);
+}
+
+Mesh::Mesh(Shader* shaderProgram) : pShader(shaderProgram)
+{
+
 }
