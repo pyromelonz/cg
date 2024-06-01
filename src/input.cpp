@@ -53,44 +53,32 @@ void Input::SetMouseButtonCallback(GLFWwindow *window, int button, int action, i
 
 bool Input::GetKeyDown(KeyCode key)
 {
-    if (key > 348)
-        return false;
-    return keys_once[(size_t)key] == 1;
+    return (key <= 348) && (keys_once[(size_t)key] == 1);
 }
 
 bool Input::GetKeyUp(KeyCode key)
 {
-    if (key > 348)
-        return false;
-    return keys_once[(size_t)key] == 0;
+    return (key <= 348) && (keys_once[(size_t)key] == 0);
 }
 
 bool Input::GetKey(KeyCode key)
 {
-    if (key > 348)
-        return false;
-    return keys[(size_t)key];
+    return (key <= 348) && keys[(size_t)key];
 }
 
 bool Input::GetMouseButtonDown(MouseButton button)
 {
-    if (button > LAST_BUTTON)
-        return false;
-    return mouse_buttons_once[(size_t)button] == 1;
+    return (button <= LAST_BUTTON) && (mouse_buttons_once[(size_t)button] == 1);
 }
 
 bool Input::GetMouseButtonUp(MouseButton button)
 {
-    if (button > LAST_BUTTON)
-        return false;
-    return mouse_buttons_once[(size_t)button] == 0;
+    return (button <= LAST_BUTTON) && (mouse_buttons_once[(size_t)button] == 0);
 }
 
 bool Input::GetMouseButton(MouseButton button)
 {
-    if (button > LAST_BUTTON)
-        return false;
-    return mouse_buttons[(size_t)button];
+    return (button <= LAST_BUTTON) && mouse_buttons[(size_t)button];
 }
 
 Input::Input()
