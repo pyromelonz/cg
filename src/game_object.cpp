@@ -1,6 +1,5 @@
 #include "game_object.h"
 #include <algorithm>
-#include "shader_manager.h"
 
 void EntityManager::AddGameObject(std::unique_ptr<Entity>&& gameObject)
 {
@@ -18,7 +17,6 @@ void EntityManager::RemoveGameObject(Entity* gameObject)
 
 void EntityManager::Update()
 {
-    ShaderManager::instance.updateGlobals();
     for (auto& gameObject : gameObjects)
     {
         gameObject->Update();

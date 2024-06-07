@@ -14,3 +14,7 @@ void UBO_ShaderAttachment::shaderBind(unsigned shaderProgram) {
 UBO_ShaderAttachment::UBO_ShaderAttachment(std::string shaderIdentifier) : shaderIdentifier(shaderIdentifier) {
     glGenBuffers(1, &ubo);
 }
+
+UBO_ShaderAttachment::~UBO_ShaderAttachment() {
+    glDeleteBuffers(1, &ubo);
+}

@@ -10,6 +10,7 @@
 #include "components/cube.h"
 #include "components/transform.h"
 #include <memory>
+#include "shader_manager.h"
 
 #define WIDTH 800
 #define HEIGHT 600
@@ -31,7 +32,7 @@ static void cursor_position_callback(GLFWwindow *window, double xpos, double ypo
 
 int main()
 {
-    srand(time(NULL));
+    //srand(time(NULL));
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
@@ -61,15 +62,6 @@ int main()
 
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     glfwSetCursorPosCallback(window, cursor_position_callback);
-    
-    Shader shader("assets/shaders/basic.vs", "assets/shaders/basic.fs", nullptr);
-   
-    /*
-    for (int i = 0; i < 300; i++)
-    {
-        Quad *quad = new Quad(((float)rand() / (float)(RAND_MAX) * 2) - 1.0f, ((float)rand() / (float)(RAND_MAX) * 2) - 1.0f, 0.01f, 0.01f, &shader);
-        EntityManager::instance().AddGameObject(quad);
-    }*/
 
     auto& EM = EntityManager::instance();
 
@@ -82,7 +74,7 @@ int main()
         auto cube_trans = std::make_unique<Transform>();
         cube_trans->pos = CGXYZ(2.0,0.0,0.0);
         cube->addComponent(std::move(cube_trans));
-        cube->addComponent(std::make_unique<Cube>(&shader));
+        cube->addComponent(std::make_unique<Cube>(ShaderManager::instance->getModelShader()));
 
         EM.AddGameObject(std::move(cam));
         EM.AddGameObject(std::move(cube));
