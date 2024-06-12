@@ -10,6 +10,11 @@ void Entity::Update() {
         c->Update();
 }
 
+void Entity::Init() {
+    for (auto& c : components)
+        c->Init();
+}
+
 void Entity::FixedUpdate() {
     for (auto& c : components)
         c->FixedUpdate();

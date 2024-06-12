@@ -25,6 +25,7 @@ class Entity //because I'm wild like that
     public:
     void addComponent(Component*);
     void Update();
+    void Init();
     void FixedUpdate();
     template<typename ComponentType>
     ComponentType* getComponent() {

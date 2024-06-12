@@ -21,7 +21,7 @@ public:
     }
 
     Mouse mouse;
-
+    void Init();
     // Add a game object to the manager
     void AddGameObject(std::unique_ptr<Entity>&& gameObject);
     // Remove a game object from the manager

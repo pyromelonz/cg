@@ -15,6 +15,12 @@ void EntityManager::RemoveGameObject(Entity* gameObject)
     }
 }
 
+void EntityManager::Init() {
+    for (auto& p : gameObjects) {
+        p->Init();
+    }
+}
+
 void EntityManager::Update()
 {
     for (auto& gameObject : gameObjects)

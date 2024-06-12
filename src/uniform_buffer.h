@@ -35,7 +35,7 @@ struct UniformBuffer : public UBO_ShaderAttachment {
 struct MVP_Block {
     CGMAT4 model = CGMAT4(),
         view = glm::lookAt(CGXYZ(0), CGXYZ(0), CGXYZ(0.0,1.0,0.0)),
-        projection = glm::perspective(45.0f,1.0f,0.1f, 100.0f);
+        projection = glm::perspective(glm::radians(45.0f),1.0f,0.1f, 100.0f);
     MVP_Block(CGMAT4 model, CGMAT4 view, CGMAT4 projection);
     MVP_Block() = default;
 };

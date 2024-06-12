@@ -2,7 +2,7 @@
 #include <cstring>
 
 void Cube::Load_Mesh() {
-    float s = 0.5f;
+    float s = 0.3f;
     float vertices_[] = {
         -s,-s,-s,
         -s,-s,s,

@@ -97,6 +97,9 @@ int main()
 
     FrameLimiter limiter(120);
     std::cout << "OpenGL version: " << glGetString(GL_VERSION) << std::endl;
+
+    EM.Init();
+
 #ifdef __APPLE__
     bool hasWindowBeenFixed = false;
 #endif
