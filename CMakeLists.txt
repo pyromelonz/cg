@@ -27,8 +27,8 @@ target_sources(CG PUBLIC
                "${PROJECT_SOURCE_DIR}/src/components/camera.cpp"
                "${PROJECT_SOURCE_DIR}/src/shader_manager.cpp"
                "${PROJECT_SOURCE_DIR}/src/uniform_buffer.cpp"
-
-               "${PROJECT_SOURCE_DIR}/vendor/glad/src/glad.c")
+               "${PROJECT_SOURCE_DIR}/vendor/glad/src/glad.c"
+               )
 
 target_include_directories(CG PUBLIC
                            "${PROJECT_BINARY_DIR}"

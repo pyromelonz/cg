@@ -18,10 +18,6 @@
 static void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 {
     glViewport(0, 0, width, height);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glOrtho(0.0f, width, height, 0.0f, 0.0f, 1.0f);
-    glMatrixMode(GL_MODELVIEW);
 }
 
 static void cursor_position_callback(GLFWwindow *window, double xpos, double ypos)
@@ -29,15 +25,32 @@ static void cursor_position_callback(GLFWwindow *window, double xpos, double ypo
     EntityManager::instance().mouse.x = xpos;
     EntityManager::instance().mouse.y = ypos;
 }
-
+#ifndef NDEBUG
+void GLAPIENTRY
+MessageCallback(GLenum source,
+                GLenum type,
+                GLuint id,
+                GLenum severity,
+                GLsizei length,
+                const GLchar *message,
+                const void *userParam)
+{
+    fprintf(stderr, "GL CALLBACK: %s type = 0x%x, severity = 0x%x, message = %s\n",
+            (type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : ""),
+            type, severity, message);
+}
+#endif
 int main()
 {
-    //srand(time(NULL));
+    // srand(time(NULL));
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+#ifndef NDEBUG
+    glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
+#endif
 
 #ifdef __APPLE__
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
@@ -57,13 +70,15 @@ int main()
         std::cout << "Failed to initialize GLAD" << std::endl;
         return -1;
     }
-
     glViewport(0, 0, WIDTH, HEIGHT);
-
+#ifndef NDEBUG
+    glEnable(GL_DEBUG_OUTPUT);
+    glDebugMessageCallback(MessageCallback, 0);
+#endif
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     glfwSetCursorPosCallback(window, cursor_position_callback);
 
-    auto& EM = EntityManager::instance();
+    auto &EM = EntityManager::instance();
 
     {
         auto cam = std::make_unique<Entity>(), cube = std::make_unique<Entity>();
@@ -72,7 +87,7 @@ int main()
         cam->addComponent(cam_trans);
         cam->addComponent(new Camera);
         auto cube_trans = new Transform;
-        cube_trans->pos = CGXYZ(2.0,0.0,0.0);
+        cube_trans->pos = CGXYZ(0.0, 0.0, 2.0);
         cube->addComponent(cube_trans);
         cube->addComponent(new Cube(ShaderManager::instance->getModelShader()));
 
@@ -102,7 +117,6 @@ int main()
             glfwSetWindowPos(window, 50, 50);
         }
 #endif
-
         limiter.next_frame();
     }
 
