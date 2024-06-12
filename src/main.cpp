@@ -67,14 +67,14 @@ int main()
 
     {
         auto cam = std::make_unique<Entity>(), cube = std::make_unique<Entity>();
-        auto cam_trans = std::make_unique<Transform>();
+        auto cam_trans = new Transform;
         cam_trans->pos = CGXYZ(0);
-        cam->addComponent(std::move(cam_trans));
-        cam->addComponent(std::make_unique<Camera>());
-        auto cube_trans = std::make_unique<Transform>();
+        cam->addComponent(cam_trans);
+        cam->addComponent(new Camera);
+        auto cube_trans = new Transform;
         cube_trans->pos = CGXYZ(2.0,0.0,0.0);
-        cube->addComponent(std::move(cube_trans));
-        cube->addComponent(std::make_unique<Cube>(ShaderManager::instance->getModelShader()));
+        cube->addComponent(cube_trans);
+        cube->addComponent(new Cube(ShaderManager::instance->getModelShader()));
 
         EM.AddGameObject(std::move(cam));
         EM.AddGameObject(std::move(cube));

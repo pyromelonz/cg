@@ -27,8 +27,6 @@ Shader::~Shader()
 
 Shader &Shader::Use()
 {
-    for (auto& ubo : ubos)
-        ubo->shaderBind(ID);
     glUseProgram(this->ID);
     return *this;
 }
@@ -166,4 +164,9 @@ void Shader::checkCompileErrors(unsigned int object, std::string type)
                       << std::endl;
         }
     }
+}
+
+UBO_Shader::UBO_Shader(UBO_ShaderAttachment* uboData, unsigned nUbos, const char *vertexPath, const char *fragmentPath, const char *geometryPath ) : Shader(vertexPath,fragmentPath,geometryPath){
+    ubos.resize(nUbos);
+    memcpy(ubos.data(),uboData,sizeof(UBO_ShaderAttachment*)*nUbos);
 }

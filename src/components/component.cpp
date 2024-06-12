@@ -1,6 +1,6 @@
 #include "component.h"
 
-void Entity::addComponent(std::unique_ptr<Component>&& component) {
+void Entity::addComponent(Component* component) {
     components.push_back(std::move(component));
     component->pEntity = this;
 }
@@ -13,4 +13,9 @@ void Entity::Update() {
 void Entity::FixedUpdate() {
     for (auto& c : components)
         c->FixedUpdate();
+}
+
+void Entity::removeComponent(unsigned index) {
+    delete components[index];
+    components.erase(components.begin()+index);
 }

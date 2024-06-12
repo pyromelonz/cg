@@ -21,18 +21,20 @@ class Component
 
 class Entity : public Component //because I'm wild like that
 {
-    std::vector<std::unique_ptr<Component>> components;
+    std::vector<Component*> components;
     public:
-    void addComponent(std::unique_ptr<Component>&&);
+    void addComponent(Component*);
     void Update() override;
     void FixedUpdate() override;
     void Init() override {}
     template<typename ComponentType>
     ComponentType* getComponent() {
         for (const auto& c : components) {
-            auto pointer = dynamic_cast<ComponentType*>(c.get());
+            auto pointer = dynamic_cast<ComponentType*>(c//.get()
+            );
                 if (pointer) return pointer;
             }  
         return nullptr;
     }
+    void removeComponent(unsigned index);
 };

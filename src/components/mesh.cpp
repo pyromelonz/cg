@@ -1,13 +1,16 @@
 #include "mesh.h"
 #include "../shader.h"
 #include "transform.h"
+#include "shader_manager.h"
 
 void Mesh::Update() {
     pShader->Use();
     Transform* transform = pEntity->getComponent<Transform>();
     if (transform) {
         auto modelMatrix = transform->getMatrix();
-        glUniformMatrix4dv(2,1,0,&modelMatrix[0][0]);
+        dynamic_cast<MVP_Block_Buffer*>(
+            dynamic_cast<UBO_Shader*>(ShaderManager::instance->getModelShader())
+                ->ubos[0])->data.model = modelMatrix;
         }
     glBindVertexArray(vao);
     glDrawElements(GL_TRIANGLES, sizeof(indices), GL_UNSIGNED_INT,0 );
