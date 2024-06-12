@@ -36,10 +36,6 @@ class Shader
 struct UBO_Shader : public Shader {
     using Shader::Shader;
     std::vector<UBO_ShaderAttachment*> ubos;
-    UBO_Shader(UBO_ShaderAttachment* uboData, unsigned nUbos, const char *vertexPath, const char *fragmentPath, const char *geometryPath = nullptr);
-    Shader& Use() override {
-        for (auto ubo : ubos)
-            ubo->shaderBind(ID);
-        return Shader::Use();
-    }
+    UBO_Shader(UBO_ShaderAttachment** uboData, unsigned nUbos, const char *vertexPath, const char *fragmentPath, const char *geometryPath = nullptr);
+    Shader& Use() override;
 };

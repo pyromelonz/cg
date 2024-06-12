@@ -6,7 +6,7 @@
 //todo: add uniform block MVP to shader and update model from mesh, view from camera, projection from .. window? input?
 
 class Camera : public Component {
-    CGMAT4 vp = CGMAT4();
+    CGMAT4 v = CGMAT4();
     public:
     void Update() override;
     void Init() override;

@@ -18,3 +18,7 @@ UBO_ShaderAttachment::UBO_ShaderAttachment(std::string shaderIdentifier) : shade
 UBO_ShaderAttachment::~UBO_ShaderAttachment() {
     glDeleteBuffers(1, &ubo);
 }
+
+MVP_Block::MVP_Block(CGMAT4 model, CGMAT4 view, CGMAT4 projection) : model(model), view(view), projection(projection) {
+
+}

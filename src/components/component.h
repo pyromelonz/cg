@@ -19,14 +19,13 @@ class Component
     //will determine order in which different Components are updated by EntityManager
 };
 
-class Entity : public Component //because I'm wild like that
+class Entity //because I'm wild like that
 {
     std::vector<Component*> components;
     public:
     void addComponent(Component*);
-    void Update() override;
-    void FixedUpdate() override;
-    void Init() override {}
+    void Update();
+    void FixedUpdate();
     template<typename ComponentType>
     ComponentType* getComponent() {
         for (const auto& c : components) {
