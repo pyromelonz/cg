@@ -2,6 +2,7 @@
 #include "../shader.h"
 #include "transform.h"
 #include "shader_manager.h"
+#include <iostream>
 
 void Mesh::Update() {
     pShader->Use();
@@ -15,6 +16,8 @@ void Mesh::Update() {
     glBindVertexArray(vao);
     glDrawElements(GL_TRIANGLES, sizeof(indices), GL_UNSIGNED_INT,0 );
     glBindVertexArray(0);
+    auto peen = transform->getPos();
+    //std::cout << "object drawn at " << peen.x << ' ' << peen.y << ' ' << peen.z << std::endl;
 }
 
 void Mesh::Init() {
