@@ -11,5 +11,4 @@ struct ShaderManager {
     ShaderManager() = default;
 
     Shader* getModelShader() const;
-    ~ShaderManager();
 };
