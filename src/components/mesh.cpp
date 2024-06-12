@@ -17,7 +17,7 @@ void Mesh::Update() {
     glDrawElements(GL_TRIANGLES, sizeof(indices), GL_UNSIGNED_INT,0 );
     glBindVertexArray(0);
     auto peen = transform->getPos();
-    //std::cout << "object drawn at " << peen.x << ' ' << peen.y << ' ' << peen.z << std::endl;
+    std::cout << "mesh drawn at " << peen.x << ' ' << peen.y << ' ' << peen.z << std::endl;
 }
 
 void Mesh::Init() {

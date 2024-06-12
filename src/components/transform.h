@@ -9,8 +9,8 @@
 #include "../vertex.h"
 
 struct Transform : public Component {
-    CGQUAT rotation;
-    CGXYZ pos, scale;
+    CGQUAT rotation = glm::identity<CGQUAT>();
+    CGXYZ pos = CGXYZ(), scale = CGXYZ(1.0,1.0,1.0);
     void Update() override;
     void FixedUpdate() override;
     CGXYZ getPos() const;

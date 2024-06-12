@@ -30,6 +30,10 @@ struct UniformBuffer : public UBO_ShaderAttachment {
         memcpy(&this->data,data,sizeof(uboStruct));
         uploadBufferData();
     }
+    void shaderBind(unsigned shaderProgram) override {
+        uploadBufferData();
+        UBO_ShaderAttachment::shaderBind(shaderProgram);
+    };
 };
 
 struct MVP_Block {

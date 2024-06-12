@@ -87,9 +87,11 @@ int main()
         cam->addComponent(cam_trans);
         cam->addComponent(new Camera);
         auto cube_trans = new Transform;
-        cube_trans->pos = CGXYZ(0.0, 0.0, 2.0);
+        cube_trans->pos = CGXYZ(0.0, 0.0, 0.0);
         cube->addComponent(cube_trans);
-        cube->addComponent(new Cube(ShaderManager::instance->getModelShader()));
+        cube->addComponent(new Triangle(ShaderManager::instance->getModelShader()));
+
+
 
         EM.AddGameObject(std::move(cam));
         EM.AddGameObject(std::move(cube));

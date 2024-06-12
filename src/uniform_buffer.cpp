@@ -10,7 +10,6 @@ void UBO_ShaderAttachment::shaderBind(unsigned shaderProgram) {
         glBindBufferBase(GL_UNIFORM_BUFFER, 0, ubo);
     }
 
-
 UBO_ShaderAttachment::UBO_ShaderAttachment(std::string shaderIdentifier) : shaderIdentifier(shaderIdentifier) {
     glGenBuffers(1, &ubo);
 }

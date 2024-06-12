@@ -35,4 +35,17 @@ void Cube::Load_Mesh() {
     memcpy(indices.data(),indices_,sizeof(indices_));
 }
 
+Triangle::Triangle(Shader* shader) : Mesh(shader) {}
+
+
+void Triangle::Load_Mesh() {
+    vertices.resize(3);
+
+    vertices[0].pos = {3.0f, 0.0f, -0.5f};
+    vertices[1].pos = {3.0f, 0.0f, 0.5f};
+    vertices[2].pos = {3.0f, 0.5f, 0.0f};
+
+    indices = {0, 1, 2, 0, 2, 1};
+}
+
 Cube::Cube(Shader* shader) : Mesh(shader) {}
