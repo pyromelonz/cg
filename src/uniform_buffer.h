@@ -5,6 +5,7 @@
 #include <global_defines.h>
 
 #include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 class UBO_ShaderAttachment {
     protected:
@@ -24,7 +25,7 @@ struct UniformBuffer : public UBO_ShaderAttachment {
         glBufferData(GL_UNIFORM_BUFFER, sizeof(uboStruct),&data, GL_DYNAMIC_DRAW);
         glBindBuffer(GL_UNIFORM_BUFFER, 0);
     }
-    //UniformBuffer(std::string shaderIdentifier) : UBO_ShaderAttachment(shaderIdentifier) {}
+    UniformBuffer(std::string shaderIdentifier) : UBO_ShaderAttachment(shaderIdentifier) {}
     UniformBuffer(std::string shaderIdentifier, uboStruct* data) : UBO_ShaderAttachment(shaderIdentifier) {
         memcpy(&this->data,data,sizeof(uboStruct));
         uploadBufferData();
@@ -32,7 +33,9 @@ struct UniformBuffer : public UBO_ShaderAttachment {
 };
 
 struct MVP_Block {
-    CGMAT4 model, view, projection;
+    CGMAT4 model = CGMAT4(),
+        view = glm::lookAt(CGXYZ(0), CGXYZ(0), CGXYZ(0.0,1.0,0.0)),
+        projection = glm::perspective(1.0,1.0,0.3, 0.9);
     MVP_Block(CGMAT4 model, CGMAT4 view, CGMAT4 projection);
     MVP_Block() = default;
 };

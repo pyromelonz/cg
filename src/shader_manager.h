@@ -9,6 +9,7 @@ struct ShaderManager {
     ShaderManager operator=(const ShaderManager&) = delete;
     ShaderManager(const ShaderManager&) = delete;
     ShaderManager() = default;
+    ~ShaderManager();
 
     Shader* getModelShader() const;
 };
