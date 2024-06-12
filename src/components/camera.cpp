@@ -10,7 +10,7 @@ void Camera::Update() {
     Init(); //temporary... unless o.o
 
     auto peen = pEntity->getComponent<Transform>()->getPos();
-    std::cout << "camera at " << peen.x << ' ' << peen.y << ' ' << peen.z << std::endl;
+    //debug std::cout << "camera at " << peen.x << ' ' << peen.y << ' ' << peen.z << std::endl;
 }
 
 void Camera::Init() {

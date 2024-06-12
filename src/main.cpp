@@ -87,7 +87,7 @@ int main()
         cam->addComponent(cam_trans);
         cam->addComponent(new Camera);
         auto cube_trans = new Transform;
-        cube_trans->pos = CGXYZ(0.0, 0.0, 0.0);
+        cube_trans->pos = CGXYZ(5.0, 0.0, 0.0);
         cube->addComponent(cube_trans);
         cube->addComponent(new Triangle(ShaderManager::instance->getModelShader()));
 

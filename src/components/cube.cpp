@@ -41,9 +41,9 @@ Triangle::Triangle(Shader* shader) : Mesh(shader) {}
 void Triangle::Load_Mesh() {
     vertices.resize(3);
 
-    vertices[0].pos = {3.0f, 0.0f, -0.5f};
-    vertices[1].pos = {3.0f, 0.0f, 0.5f};
-    vertices[2].pos = {3.0f, 0.5f, 0.0f};
+    vertices[0].pos = {0.0f, 0.0f, -0.5f};
+    vertices[1].pos = {0.0f, 0.0f, 0.5f};
+    vertices[2].pos = {0.0f, 0.5f, 0.0f};
 
     indices = {0, 1, 2, 0, 2, 1};
 }
