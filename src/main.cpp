@@ -25,6 +25,7 @@ static void cursor_position_callback(GLFWwindow *window, double xpos, double ypo
     EntityManager::instance().mouse.x = xpos;
     EntityManager::instance().mouse.y = ypos;
 }
+#ifndef __APPLE__
 #ifndef NDEBUG
 void GLAPIENTRY
 MessageCallback(GLenum source,
@@ -40,12 +41,18 @@ MessageCallback(GLenum source,
             type, severity, message);
 }
 #endif
+#endif
 int main()
 {
     // srand(time(NULL));
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+#ifdef __APPLE__
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+#else
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+#endif
+
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 #ifndef NDEBUG
@@ -71,14 +78,16 @@ int main()
         return -1;
     }
     glViewport(0, 0, WIDTH, HEIGHT);
+#ifndef __APPLE__
 #ifndef NDEBUG
     glEnable(GL_DEBUG_OUTPUT);
     glDebugMessageCallback(MessageCallback, 0);
 #endif
+#endif
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     glfwSetCursorPosCallback(window, cursor_position_callback);
 
-    auto &EM = EntityManager::instance();
+    /*auto &EM = EntityManager::instance();
 
     {
         auto cam = std::make_unique<Entity>(), cube = std::make_unique<Entity>();
@@ -93,12 +102,12 @@ int main()
 
         EM.AddGameObject(std::move(cam));
         EM.AddGameObject(std::move(cube));
-    }
+    }*/
 
     FrameLimiter limiter(120);
     std::cout << "OpenGL version: " << glGetString(GL_VERSION) << std::endl;
 
-    EM.Init();
+    // EM.Init();
 
 #ifdef __APPLE__
     bool hasWindowBeenFixed = false;
