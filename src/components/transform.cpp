@@ -1,19 +1,21 @@
 #include "transform.h"
 #include "glm/gtc/quaternion.hpp"
 
-void Transform::Update() {
-
+void Transform::Update()
+{
 }
 
-void Transform::FixedUpdate() {
-
+void Transform::FixedUpdate()
+{
 }
 
-CGXYZ Transform::getPos() const {
+CGXYZ Transform::getPos() const
+{
     return pos;
 }
 
-CGMAT4 Transform::getMatrix() const noexcept {
+CGMAT4 Transform::getMatrix() const noexcept
+{
     CGMAT4 mat(rotation);
     mat[0][0] *= scale.x;
     mat[1][1] *= scale.y;
@@ -25,6 +27,7 @@ CGMAT4 Transform::getMatrix() const noexcept {
     return mat;
 }
 
-void Transform::rotate(CGXYZ vec, double angle) noexcept {
-    rotation = glm::rotate(rotation,angle,vec);
+void Transform::rotate(CGXYZ vec, double angle) noexcept
+{
+    rotation = glm::rotate(rotation, angle, vec);
 }

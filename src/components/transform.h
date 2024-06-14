@@ -4,7 +4,7 @@
 #include <glm/ext/quaternion_transform.hpp>
 #include <glm/glm.hpp>
 
-#include "game_object.h"
+#include "entity_manager.h"
 #include "global_defines.h"
 #include "vertex.h"
 #include "component.h"

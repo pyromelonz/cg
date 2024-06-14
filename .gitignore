@@ -15,3 +15,6 @@ _deps
 .DS_STORE
 CGConfig.h
 .vs
+*.xcodeproj
+Debug
+Release

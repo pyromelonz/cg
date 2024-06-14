@@ -5,7 +5,7 @@
 #include "frame_limiter.h"
 #include "CGConfig.h"
 #include "shader.h"
-#include "game_object.h"
+#include "entity_manager.h"
 #include "components/camera.h"
 #include "components/cube.h"
 #include "components/transform.h"

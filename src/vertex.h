@@ -3,7 +3,8 @@
 #include "glm/glm.hpp"
 #include "global_defines.h"
 
-struct Vertex {
+struct Vertex
+{
     CGXYZ pos;
-    //CGUV tex;
+    // CGUV tex;
 };
