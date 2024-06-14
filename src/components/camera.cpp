@@ -18,6 +18,7 @@ Camera::Camera(int w, int h)
 void Camera::Init()
 {
     transform = pEntity->getComponent<Transform>();
+    updatePriority = 5;
 }
 
 void Camera::Update()

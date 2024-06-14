@@ -27,7 +27,7 @@ void Mesh::Update()
 
 void Mesh::Init()
 {
-    
+    updatePriority = UpdatePriorities::Render;
     LoadMesh();
     LoadTexture();
     glGenVertexArrays(1, &vao);

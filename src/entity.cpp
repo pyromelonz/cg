@@ -1,9 +1,11 @@
+#include <algorithm>
+
 #include "entity.h"
 #include "components/component.h"
 
 void Entity::addComponent(Component *component)
 {
-    components.push_back(std::move(component));
+    components.insert(std::lower_bound(components.begin(),components.end(),component,[](Component* c1, Component* c2){return c1->GetUpdatePriority() < c2->GetUpdatePriority();}),component);
     component->pEntity = this;
 }
 
