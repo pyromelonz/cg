@@ -3,13 +3,11 @@
 #include <memory>
 #include "components/component.h"
 
-
 struct Mouse
 {
     double x;
     double y;
 };
-
 
 class EntityManager
 {
@@ -23,9 +21,9 @@ public:
     Mouse mouse;
     void Init();
     // Add a game object to the manager
-    void AddGameObject(std::unique_ptr<Entity>&& gameObject);
+    void AddEntity(std::unique_ptr<Entity> &&gameObject);
     // Remove a game object from the manager
-    void RemoveGameObject(Entity* gameObject);
+    void RemoveEntity(Entity *gameObject);
     // Called once per frame
     void Update();
     // Called once per fixed amount of time, currently unused

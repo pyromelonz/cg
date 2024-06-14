@@ -87,7 +87,7 @@ int main()
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     glfwSetCursorPosCallback(window, cursor_position_callback);
 
-    /*auto &EM = EntityManager::instance();
+    auto &EM = EntityManager::instance();
 
     {
         auto cam = std::make_unique<Entity>(), cube = std::make_unique<Entity>();
@@ -95,19 +95,20 @@ int main()
         cam_trans->pos = CGXYZ(0);
         cam->addComponent(cam_trans);
         cam->addComponent(new Camera);
+        EM.AddEntity(std::move(cam));
+
         auto cube_trans = new Transform;
         cube_trans->pos = CGXYZ(0.0, 0.0, 2.0);
         cube->addComponent(cube_trans);
         cube->addComponent(new Cube(ShaderManager::instance->getModelShader()));
 
-        EM.AddGameObject(std::move(cam));
-        EM.AddGameObject(std::move(cube));
-    }*/
+        EM.AddEntity(std::move(cube));
+    }
 
     FrameLimiter limiter(120);
     std::cout << "OpenGL version: " << glGetString(GL_VERSION) << std::endl;
 
-    // EM.Init();
+    EM.Init();
 
 #ifdef __APPLE__
     bool hasWindowBeenFixed = false;

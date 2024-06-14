@@ -14,5 +14,5 @@ public:
     virtual void Init() = 0;
 
     // Will determine the order in which different Components are updated by the EntityManager
-    const uint8_t updatePriority = 0;
+    const uint8_t UpdatePriority = 0;
 };
