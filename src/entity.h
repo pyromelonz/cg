@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "components/component.h"
+class Component;
 
 class Entity
 {
@@ -14,6 +14,15 @@ public:
     void Init();
     void FixedUpdate();
     template <typename ComponentType>
-    ComponentType *getComponent();
+    ComponentType *getComponent()
+    {
+        for (const auto &c : components)
+        {
+            auto pointer = dynamic_cast<ComponentType *>(c);
+            if (pointer)
+                return pointer;
+        }
+        return nullptr;
+    }
     void removeComponent(unsigned index);
 };

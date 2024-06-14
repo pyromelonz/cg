@@ -13,6 +13,6 @@ public:
     virtual void FixedUpdate() {};
     virtual void Init() = 0;
 
+    // Will determine the order in which different Components are updated by the EntityManager
     const uint8_t updatePriority = 0;
-    // will determine order in which different Components are updated by EntityManager
 };

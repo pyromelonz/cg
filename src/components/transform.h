@@ -1,14 +1,16 @@
 #pragma once
 
-#include "../game_object.h"
-
 #include <glm/ext/quaternion_double_precision.hpp>
-#include "../global_defines.h"
 #include <glm/ext/quaternion_transform.hpp>
 #include <glm/glm.hpp>
-#include "../vertex.h"
 
-struct Transform : public Component {
+#include "game_object.h"
+#include "global_defines.h"
+#include "vertex.h"
+#include "component.h"
+
+struct Transform : public Component
+{
     CGQUAT rotation;
     CGXYZ pos, scale;
     void Update() override;

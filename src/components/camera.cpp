@@ -1,7 +1,7 @@
 #include "camera.h"
 #include "glm/glm.hpp"
 #include "transform.h"
-#include <iostream>
+#include "entity.h"
 
 Camera::Camera()
 {
