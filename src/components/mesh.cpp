@@ -27,8 +27,8 @@ void Mesh::Update()
 
 void Mesh::Init()
 {
-    Load_Mesh();
-    Load_Texture();
+    LoadMesh();
+    LoadTexture();
     glGenVertexArrays(1, &vao);
     glGenBuffers(1, &vbo);
     glGenBuffers(1, &ebo);

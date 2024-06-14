@@ -17,8 +17,8 @@ protected:
     Shader *pShader;
 
 public:
-    virtual void Load_Mesh() = 0;
-    virtual void Load_Texture() = 0;
+    virtual void LoadMesh() = 0;
+    virtual void LoadTexture() = 0;
     Mesh(Shader *pShaderProgram);
     void Init() override;
     void Update() override;

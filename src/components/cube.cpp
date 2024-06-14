@@ -1,7 +1,7 @@
 #include "cube.h"
 #include <cstring>
 
-void Cube::Load_Mesh()
+void Cube::LoadMesh()
 {
     float s = 0.3f;
     float vertices_[] = {

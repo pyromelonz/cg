@@ -4,8 +4,8 @@
 
 class Cube : public Mesh
 {
-    void Load_Texture() override {};
-    void Load_Mesh() override;
+    void LoadTexture() override {};
+    void LoadMesh() override;
 
 public:
     Cube(Shader *shader);
