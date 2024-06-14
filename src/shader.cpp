@@ -91,7 +91,7 @@ std::string Shader::LoadFromFile(const char *path)
     std::ifstream fs(path);
     if (!fs || fs.bad())
     {
-        std::cerr << "Failed to open file: " << path << std::endl;
+        std::cerr << "Failed to open file: " << path << " Reason: " << std::strerror(errno) << std::endl;
         return "";
     }
     std::stringstream buffer;
