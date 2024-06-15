@@ -14,6 +14,8 @@ public:
     void Init() override;
     Camera();
     Camera(int w, int h);
+    glm::mat4 GetViewMatrix();
+    glm::mat4 GetProjectionMatrix();
 
 private:
     Transform *transform = nullptr;
