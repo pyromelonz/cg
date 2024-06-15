@@ -20,7 +20,6 @@ set_target_properties(CG PROPERTIES OUTPUT_NAME_RELEASE "CG")
 target_sources(CG PUBLIC
                 "${PROJECT_SOURCE_DIR}/src/main.cpp"
                 "${PROJECT_SOURCE_DIR}/src/shader.cpp"
-                "${PROJECT_SOURCE_DIR}/src/shader_manager.cpp"
                 "${PROJECT_SOURCE_DIR}/src/uniform_buffer.cpp"
                 "${PROJECT_SOURCE_DIR}/src/entity.cpp"
                 "${PROJECT_SOURCE_DIR}/src/components/cube.cpp"

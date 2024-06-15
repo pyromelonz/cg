@@ -5,10 +5,11 @@
 #include "component.h"
 #include "transform.h"
 
-// todo: add uniform block MVP to shader and update model from mesh, view from camera, projection from .. window? input?
-
 class Camera : public Component
 {
+public:
+    static Camera *main;
+
 public:
     void Update() override;
     void Init() override;

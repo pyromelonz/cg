@@ -165,16 +165,3 @@ void Shader::checkCompileErrors(unsigned int object, std::string type)
         }
     }
 }
-
-Shader &UBO_Shader::Use()
-{
-    for (auto ubo : ubos)
-        ubo->shaderBind(ID);
-    return Shader::Use();
-}
-
-UBO_Shader::UBO_Shader(UBO_ShaderAttachment **uboData, unsigned nUbos, const char *vertexPath, const char *fragmentPath, const char *geometryPath) : Shader(vertexPath, fragmentPath, geometryPath)
-{
-    ubos.resize(nUbos);
-    memcpy(ubos.data(), uboData, sizeof(UBO_ShaderAttachment *) * nUbos);
-}

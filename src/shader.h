@@ -10,11 +10,12 @@
 
 class Shader
 {
+
 public:
     unsigned int ID;
     Shader(const char *vertexPath, const char *fragmentPath, const char *geometryPath = nullptr);
     ~Shader();
-    virtual Shader &Use();
+    Shader &Use();
     // geometry source code is optional
 
     void SetFloat(const char *name, float value, bool useShader = false);
@@ -31,12 +32,4 @@ private:
     std::string LoadFromFile(const char *path);
     void Compile(const char *vertexSource, const char *fragmentSource, const char *geometrySource = nullptr);
     void checkCompileErrors(unsigned int object, std::string type);
-};
-
-struct UBO_Shader : public Shader
-{
-    using Shader::Shader;
-    std::vector<UBO_ShaderAttachment *> ubos;
-    UBO_Shader(UBO_ShaderAttachment **uboData, unsigned nUbos, const char *vertexPath, const char *fragmentPath, const char *geometryPath = nullptr);
-    Shader &Use() override;
 };

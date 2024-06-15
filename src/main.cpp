@@ -11,7 +11,6 @@
 #include "components/cube.h"
 #include "components/transform.h"
 #include <memory>
-#include "shader_manager.h"
 
 #define WIDTH 800
 #define HEIGHT 600
@@ -95,13 +94,14 @@ int main()
         auto cam_trans = new Transform;
         cam_trans->pos = CGXYZ(0);
         cam->addComponent(cam_trans);
-        cam->addComponent(new Camera);
+        cam->addComponent(new Camera(WIDTH, HEIGHT));
         EM.AddEntity(std::move(cam));
 
         auto cube_trans = new Transform;
         cube_trans->pos = CGXYZ(0.0, 0.0, 2.0);
         cube->addComponent(cube_trans);
-        cube->addComponent(new Cube(ShaderManager::instance->getModelShader()));
+        Shader *shader = new Shader("assets/shaders/basic.vs", "assets/shaders/basic.fs");
+        cube->addComponent(new Cube(shader));
 
         EM.AddEntity(std::move(cube));
     }
