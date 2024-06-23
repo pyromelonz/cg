@@ -12,8 +12,8 @@
 #include "components/transform.h"
 #include <memory>
 
-#define WIDTH 800
-#define HEIGHT 600
+#define WIDTH 1024
+#define HEIGHT 768
 
 static void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 {
@@ -49,6 +49,7 @@ int main()
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 #ifdef __APPLE__
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #else
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 #endif
@@ -86,25 +87,25 @@ int main()
 #endif
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     glfwSetCursorPosCallback(window, cursor_position_callback);
+    glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 
     auto &EM = EntityManager::instance();
 
-    {
-        auto cam = std::make_unique<Entity>(), cube = std::make_unique<Entity>();
-        auto cam_trans = new Transform;
-        cam_trans->pos = CGXYZ(0);
-        cam->addComponent(cam_trans);
-        cam->addComponent(new Camera(WIDTH, HEIGHT));
-        EM.AddEntity(std::move(cam));
+    auto cam = std::make_unique<Entity>(), cube = std::make_unique<Entity>();
+    auto cam_trans = new Transform;
+    cam_trans->Position = CGXYZ(0);
+    cam->addComponent(cam_trans);
+    cam->addComponent(new Camera(WIDTH, HEIGHT));
+    EM.AddEntity(std::move(cam));
 
-        auto cube_trans = new Transform;
-        cube_trans->pos = CGXYZ(0.0, 0.0, 2.0);
-        cube->addComponent(cube_trans);
-        Shader *shader = new Shader("assets/shaders/basic.vs", "assets/shaders/basic.fs");
-        cube->addComponent(new Cube(shader));
+    auto cube_trans = new Transform;
+    cube_trans->Position = CGXYZ(0.0, 0.0, 0.0);
+    cube_trans->Scale = CGXYZ(1.0, 1.0, 1.0);
+    cube->addComponent(cube_trans);
+    Shader *shader = new Shader("assets/shaders/basic.vs", "assets/shaders/basic.fs");
+    cube->addComponent(new Cube(shader));
 
-        EM.AddEntity(std::move(cube));
-    }
+    EM.AddEntity(std::move(cube));
 
     FrameLimiter limiter(120);
     std::cout << "OpenGL version: " << glGetString(GL_VERSION) << std::endl;
@@ -117,11 +118,9 @@ int main()
     while (!glfwWindowShouldClose(window))
     {
         // Black background
-        glClearColor(0, 0, 0, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         EntityManager::instance().Update();
-
         glfwSwapBuffers(window);
         glfwPollEvents();
 #ifdef __APPLE__

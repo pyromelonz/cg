@@ -83,7 +83,7 @@ void Shader::SetMatrix4(const char *name, const glm::mat4 &matrix, bool useShade
 {
     if (useShader)
         this->Use();
-    glUniformMatrix4fv(glGetUniformLocation(this->ID, name), 1, false, glm::value_ptr(matrix));
+    glUniformMatrix4fv(glGetUniformLocation(this->ID, name), 1, false, &matrix[0][0]);
 }
 
 std::string Shader::LoadFromFile(const char *path)

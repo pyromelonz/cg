@@ -6,17 +6,15 @@
 
 #include "entity_manager.h"
 #include "global_defines.h"
-#include "vertex.h"
 #include "component.h"
 
-struct Transform : public Component
+class Transform : public Component
 {
-    CGQUAT rotation;
-    CGXYZ pos, scale;
+public:
+    glm::vec3 Position, Scale, Rotation;
     void Update() override;
     void FixedUpdate() override;
-    CGXYZ getPos() const;
     void Init() override {};
-    CGMAT4 getMatrix() const noexcept;
+    glm::mat4 GetMatrix() const noexcept;
     void rotate(CGXYZ vec, double angle) noexcept;
 };

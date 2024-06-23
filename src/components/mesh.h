@@ -4,22 +4,22 @@
 
 #include "component.h"
 #include "shader.h"
-#include "vertex.h"
 
 class Mesh : public Component
 {
     bool visible;
 
 protected:
-    std::vector<Vertex> vertices;
-    std::vector<CGINDEX> indices;
+    std::vector<GLfloat> vertices;
     unsigned ebo, vbo, vao;
     Shader *pShader;
 
 public:
+    Mesh(Shader *pShaderProgram, const char *objPath);
+    Mesh(Shader *pShaderProgram, const GLfloat *vertices, size_t size);
+
     virtual void LoadMesh() = 0;
     virtual void LoadTexture() = 0;
-    Mesh(Shader *pShaderProgram);
     void Init() override;
     void Update() override;
     void FixedUpdate() override {};

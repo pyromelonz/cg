@@ -7,7 +7,7 @@ Camera *Camera::main; // Static member declaration
 Camera::Camera()
 {
     view = glm::mat4(1.0f);
-    projection = glm::perspective(glm::radians(45.0f), 1.0f, 0.1f, 1000.0f);
+    projection = glm::perspective(glm::radians(45.0f), 1.0f, 0.1f, 100.0f);
     if (Camera::main == NULL)
     {
         Camera::main = this;
@@ -17,7 +17,7 @@ Camera::Camera()
 Camera::Camera(int w, int h)
 {
     view = glm::mat4(1.0f);
-    projection = glm::perspective(glm::radians(45.0f), (float)w / (float)h, 0.1f, 1000.0f);
+    projection = glm::perspective(glm::radians(45.0f), (float)w / (float)h, 0.1f, 100.0f);
     if (Camera::main == NULL)
     {
         Camera::main = this;
@@ -46,13 +46,13 @@ void Camera::Update()
     glm::mat4 matPitch = glm::mat4(1.0f);
     glm::mat4 matYaw = glm::mat4(1.0f);
 
-    matRoll = glm::rotate(matRoll, (float)transform->rotation.z, glm::vec3(0, 0, 1));
-    matPitch = glm::rotate(matPitch, (float)transform->rotation.x, glm::vec3(1, 0, 0));
-    matYaw = glm::rotate(matYaw, (float)transform->rotation.y, glm::vec3(0, 1, 0));
+    matRoll = glm::rotate(matRoll, (float)transform->Rotation.z, glm::vec3(0, 0, 1));
+    matPitch = glm::rotate(matPitch, (float)transform->Rotation.x, glm::vec3(1, 0, 0));
+    matYaw = glm::rotate(matYaw, (float)transform->Rotation.y, glm::vec3(0, 1, 0));
 
     glm::mat4 rotation = matRoll * matPitch * matYaw;
 
-    glm::mat4 translation = glm::translate(glm::mat4(1.0f), glm::vec3(-transform->pos.x, -transform->pos.y, -transform->pos.z));
+    glm::mat4 translation = glm::translate(glm::mat4(1.0f), glm::vec3(-transform->Position.x, -transform->Position.y, -transform->Position.z));
 
     view = rotation * translation;
 }

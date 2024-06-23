@@ -4,24 +4,25 @@
 #include "shader.h"
 #include "transform.h"
 #include "entity.h"
+#include "camera.h"
 
 void Mesh::Update()
 {
-    /*pShader->Use();
-    Transform *transform = pEntity->getComponent<Transform>();
-    if (transform)
-    {
-        auto modelMatrix = transform->getMatrix();
-        dynamic_cast<MVP_Block_Buffer *>(
-            dynamic_cast<UBO_Shader *>(ShaderManager::instance->getModelShader())
-                ->ubos[0])
-            ->data.model = modelMatrix;
-    }
+    // Camera matrix
+    glm::mat4 View = glm::lookAt(
+        glm::vec3(4, 3, -3), // Camera is at (4,3,-3), in World Space
+        glm::vec3(0, 0, 0),  // and looks at the origin
+        glm::vec3(0, 1, 0)   // Head is up (set to 0,-1,0 to look upside-down)
+    );
+    // Model matrix : an identity matrix (model will be at the origin)
+    glm::mat4 Model = glm::mat4(1.0f);
+    pShader->Use();
+    pShader->SetMatrix4("viewMatrix", View);
+    pShader->SetMatrix4("g_ProjectionMatrix", Camera::main->GetProjectionMatrix());
+    pShader->SetMatrix4("modelMatrix", this->pEntity->getComponent<Transform>()->GetMatrix());
     glBindVertexArray(vao);
-    glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+    glDrawArrays(GL_TRIANGLES, 0, vertices.size());
     glBindVertexArray(0);
-    auto peen = transform->getPos();*/
-    // std::cout << "object drawn at " << peen.x << ' ' << peen.y << ' ' << peen.z << std::endl;
 }
 
 void Mesh::Init()
@@ -31,20 +32,19 @@ void Mesh::Init()
     LoadTexture();
     glGenVertexArrays(1, &vao);
     glGenBuffers(1, &vbo);
-    glGenBuffers(1, &ebo);
 
     glBindVertexArray(vao);
 
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices[0]) * vertices.size(), vertices.data(), GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(GLfloat), vertices.data(), GL_STATIC_DRAW);
 
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(indices[0]), indices.data(), GL_STATIC_DRAW);
-
-    glVertexAttribPointer(0, 1, GL_FLOAT, false, sizeof(Vertex), nullptr);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid *)0);
     glEnableVertexAttribArray(0);
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
 }
 
-Mesh::Mesh(Shader *shaderProgram) : pShader(shaderProgram)
+Mesh::Mesh(Shader *shaderProgram, const GLfloat *vertices, size_t size) : pShader(shaderProgram), vertices(vertices, vertices + size)
 {
 }
