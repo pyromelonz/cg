@@ -99,8 +99,6 @@ int main()
     EM.AddEntity(std::move(cam));
 
     auto cube_trans = new Transform;
-    cube_trans->Position = CGXYZ(0.0, 0.0, 0.0);
-    cube_trans->Scale = CGXYZ(1.0, 1.0, 1.0);
     cube->addComponent(cube_trans);
     Shader *shader = new Shader("assets/shaders/basic.vs", "assets/shaders/basic.fs");
     cube->addComponent(new Cube(shader));
