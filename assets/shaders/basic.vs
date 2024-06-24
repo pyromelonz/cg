@@ -1,4 +1,4 @@
-#version 450
+#version 410
 layout(location = 0) in vec3 aPos;
 
 //layout(std140, binding = 0) uniform g_GlobalUniforms {

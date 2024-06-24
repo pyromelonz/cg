@@ -1,57 +1,6 @@
 #pragma once
 #include <GLFW/glfw3.h>
 
-enum KeyCode;
-enum MouseButton;
-
-struct Mouse
-{
-    double x;
-    double y;
-};
-
-class Input
-{
-public:
-    static Input &instance()
-    {
-        static Input instance;
-        return instance;
-    }
-    // Get the current mouse position in screenspace
-    Mouse GetMousePosition();
-    // Clears the keys in the keys_once array since they are supposed to be used only once
-    void ClearOnceKeys();
-    // Callback for GLFW to set the mouse position
-    void SetCursorPosCallback(GLFWwindow *window, double xpos, double ypos);
-    // Callback for GLFW to set the key pressed/released
-    void SetKeyCallback(GLFWwindow *window, int key, int scancode, int action, int mods);
-    // Callback for GLFW to set the mouse button pressed/released
-    void SetMouseButtonCallback(GLFWwindow *window, int button, int action, int mods);
-    // Check if a key is pressed once
-    bool GetKeyDown(KeyCode key);
-    // Check if a key is released once
-    bool GetKeyUp(KeyCode key);
-    // Check if a key is pressed continuously
-    bool GetKey(KeyCode key);
-    // Check if a mouse button is pressed once
-    bool GetMouseButtonDown(MouseButton button);
-    // Check if a mouse button is released once
-    bool GetMouseButtonUp(MouseButton button);
-    // Check if a mouse button is pressed continuously
-    bool GetMouseButton(MouseButton button);
-
-private:
-    Input();
-    Input(Input const &) = delete;
-    void operator=(Input const &) = delete;
-
-    Mouse mouse;
-    char mouse_buttons_once[8];
-    bool mouse_buttons[8];
-    char keys_once[349];
-    bool keys[349];
-};
 enum KeyCode
 {
     Backspace = 8,
@@ -162,4 +111,53 @@ enum MouseButton
     Button_7 = 6,
     Button_8 = 7,
     LAST_BUTTON = Button_8
+};
+
+struct Mouse
+{
+    double x;
+    double y;
+};
+
+class Input
+{
+public:
+    static Input &instance()
+    {
+        static Input instance;
+        return instance;
+    }
+    // Get the current mouse position in screenspace
+    Mouse GetMousePosition();
+    // Clears the keys in the keys_once array since they are supposed to be used only once
+    void ClearOnceKeys();
+    // Callback for GLFW to set the mouse position
+    void SetCursorPosCallback(GLFWwindow *window, double xpos, double ypos);
+    // Callback for GLFW to set the key pressed/released
+    void SetKeyCallback(GLFWwindow *window, int key, int scancode, int action, int mods);
+    // Callback for GLFW to set the mouse button pressed/released
+    void SetMouseButtonCallback(GLFWwindow *window, int button, int action, int mods);
+    // Check if a key is pressed once
+    bool GetKeyDown(KeyCode key);
+    // Check if a key is released once
+    bool GetKeyUp(KeyCode key);
+    // Check if a key is pressed continuously
+    bool GetKey(KeyCode key);
+    // Check if a mouse button is pressed once
+    bool GetMouseButtonDown(MouseButton button);
+    // Check if a mouse button is released once
+    bool GetMouseButtonUp(MouseButton button);
+    // Check if a mouse button is pressed continuously
+    bool GetMouseButton(MouseButton button);
+
+private:
+    Input();
+    Input(Input const &) = delete;
+    void operator=(Input const &) = delete;
+
+    Mouse mouse;
+    char mouse_buttons_once[8];
+    bool mouse_buttons[8];
+    char keys_once[349];
+    bool keys[349];
 };
