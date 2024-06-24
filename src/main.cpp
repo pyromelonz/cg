@@ -83,18 +83,19 @@ int main()
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     glfwSetCursorPosCallback(window, cursor_position_callback);
     glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
 
     auto &EM = EntityManager::instance();
 
     auto cam = std::make_unique<Entity>(), cube = std::make_unique<Entity>();
-    auto cam_trans = new Transform(glm::vec3(0.0f, 0.0f, 5.0f));
-    cam->addComponent(cam_trans);
+    Shader *shader = new Shader("assets/shaders/basic.vs", "assets/shaders/basic.fs");
+
+    cam->addComponent(new Transform(glm::vec3(0.0f, 0.0f, 5.0f)));
     cam->addComponent(new Camera(WIDTH, HEIGHT));
     EM.AddEntity(std::move(cam));
 
-    auto cube_trans = new Transform;
-    cube->addComponent(cube_trans);
-    Shader *shader = new Shader("assets/shaders/basic.vs", "assets/shaders/basic.fs");
+    cube->addComponent(new Transform);
     cube->addComponent(new Cube(shader));
 
     EM.AddEntity(std::move(cube));
