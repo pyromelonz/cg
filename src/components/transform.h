@@ -5,7 +5,6 @@
 #include <glm/glm.hpp>
 
 #include "entity_manager.h"
-#include "global_defines.h"
 #include "component.h"
 
 class Transform : public Component

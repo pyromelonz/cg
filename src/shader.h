@@ -1,11 +1,9 @@
 #pragma once
 
 #include <string>
-
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include "uniform_buffer.h"
 #include <vector>
 
 class Shader

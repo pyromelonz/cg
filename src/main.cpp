@@ -1,7 +1,8 @@
 #include <iostream>
-
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <memory>
+
 #include "frame_limiter.h"
 #include "CGConfig.h"
 #include "shader.h"
@@ -10,7 +11,6 @@
 #include "entity_manager.h"
 #include "components/cube.h"
 #include "components/transform.h"
-#include <memory>
 
 #define WIDTH 1024
 #define HEIGHT 768
@@ -44,7 +44,6 @@ int main()
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 #ifdef __APPLE__
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #else
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 #endif
