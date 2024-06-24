@@ -1,21 +1,25 @@
 #pragma once
 
-#include "component.h"
 #include <vector>
-#include "../shader.h"
-#include "../vertex.h"
 
-class Mesh : public Component {
+#include "component.h"
+#include "shader.h"
+
+class Mesh : public Component
+{
     bool visible;
-    protected:
-    std::vector<Vertex> vertices;
-    std::vector<CGINDEX> indices;
+
+protected:
+    std::vector<GLfloat> vertices;
     unsigned ebo, vbo, vao;
-    Shader* pShader;
-    public:
-    virtual void Load_Mesh() = 0;
-    virtual void Load_Texture() = 0;
-    Mesh(Shader* pShaderProgram);
+    Shader *pShader;
+
+public:
+    Mesh(Shader *pShaderProgram, const char *objPath);
+    Mesh(Shader *pShaderProgram, const GLfloat *vertices, size_t size);
+
+    virtual void LoadMesh() = 0;
+    virtual void LoadTexture() = 0;
     void Init() override;
     void Update() override;
     void FixedUpdate() override {};

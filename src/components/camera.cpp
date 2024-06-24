@@ -1,21 +1,46 @@
 #include "camera.h"
-#include "glm/ext/matrix_transform.hpp"
 #include "transform.h"
+#include "entity.h"
 
-void Camera::Update() {
-    Init(); //temporary... unless o.o
-    shaderUniform.setUniform(vp);
+Camera *Camera::main; // Static member declaration
+
+Camera::Camera()
+{
+    view = glm::mat4(1.0f);
+    projection = glm::perspective(glm::radians(45.0f), 1.0f, 0.1f, 100.0f);
+    if (Camera::main == NULL)
+    {
+        Camera::main = this;
+    }
 }
 
-void Camera::Init() {
-    auto transform = pEntity->getComponent<Transform>();
-    vp = glm::lookAt(transform->getPos(), CGXYZ(CGXYZW(1.0,0.0,0.0,1.0f) * transform->getMatrix()), CGXYZ(0.0,1.0,0.0));
+Camera::Camera(int w, int h)
+{
+    view = glm::mat4(1.0f);
+    projection = glm::perspective(glm::radians(45.0f), (float)w / (float)h, 0.1f, 100.0f);
+    if (Camera::main == NULL)
+    {
+        Camera::main = this;
+    }
 }
 
-void ShaderViewProjectionGlobal::shaderUpdateUniform() {
-    glUniformMatrix4dv(2,1,0,&uniform[0][0]);
+glm::mat4 Camera::GetViewMatrix()
+{
+    return view;
 }
 
-unsigned ShaderViewProjectionGlobal::layoutLocation() const {
-    return 1;
+glm::mat4 Camera::GetProjectionMatrix()
+{
+    return projection;
+}
+
+void Camera::Init()
+{
+    transform = pEntity->getComponent<Transform>();
+    updatePriority = 5;
+}
+
+void Camera::Update()
+{
+    view = glm::lookAt(transform->Position, transform->Position + transform->Rotation * glm::vec3(0.0f, 0.0f, -1.0f), transform->Rotation * glm::vec3(0.0f, 1.0f, 0.0f));
 }

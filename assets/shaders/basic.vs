@@ -1,9 +1,13 @@
-#version 330 core
+#version 450
+layout(location = 0) in vec3 aPos;
 
-layout (location = 0) in vec3 aPos;
-void main(){
-    gl_Position = MVP * vec4(aPos.x, aPos.y, aPos.z, 1.0);
+//layout(std140, binding = 0) uniform g_GlobalUniforms {
+//    mat4 g_ProjectionMatrix;
+//};
+uniform mat4 viewMatrix;
+uniform mat4 modelMatrix;
+uniform mat4 g_ProjectionMatrix;
+
+void main() {
+    gl_Position = g_ProjectionMatrix * viewMatrix * modelMatrix * vec4(aPos, 1.0);
 }
-
-layout (location = 1) uniform mat4 VP_Matrix;
-layout (location = 2) uniform mat4 M_Matrix

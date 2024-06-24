@@ -19,23 +19,24 @@ set_target_properties(CG PROPERTIES OUTPUT_NAME_RELEASE "CG")
 target_sources(CG PUBLIC
                "${PROJECT_SOURCE_DIR}/src/main.cpp"
                "${PROJECT_SOURCE_DIR}/src/shader.cpp"
-               "${PROJECT_SOURCE_DIR}/src/game_object.cpp"
+               "${PROJECT_SOURCE_DIR}/src/entity.cpp"
                "${PROJECT_SOURCE_DIR}/src/input.cpp"
                "${PROJECT_SOURCE_DIR}/src/components/component.cpp"
                "${PROJECT_SOURCE_DIR}/src/components/cube.cpp"
                "${PROJECT_SOURCE_DIR}/src/components/mesh.cpp"
                "${PROJECT_SOURCE_DIR}/src/components/transform.cpp"
                "${PROJECT_SOURCE_DIR}/src/components/camera.cpp"
-               "${PROJECT_SOURCE_DIR}/src/shader_manager.cpp"
+               "${PROJECT_SOURCE_DIR}/src/entity_manager.cpp"
                "${PROJECT_SOURCE_DIR}/vendor/glad/src/glad.c")
 
 target_include_directories(CG PUBLIC
-                           "${PROJECT_BINARY_DIR}"
-                           "${PROJECT_SOURCE_DIR}/vendor/glad/include"
-                           "${PROJECT_SOURCE_DIR}/vendor/glfw/include"
-                           "${PROJECT_SOURCE_DIR}/vendor/glm/glm"
-                           "${PROJECT_SOURCE_DIR}/src"
-                           )
+                            "${PROJECT_BINARY_DIR}"
+                            "${PROJECT_SOURCE_DIR}/vendor/glad-4.1/include"
+                            "${PROJECT_SOURCE_DIR}/vendor/glfw/include"
+                            "${PROJECT_SOURCE_DIR}/vendor/glm/glm"
+                            "${PROJECT_SOURCE_DIR}/vendor/glad/include"
+                            "${PROJECT_SOURCE_DIR}/src"
+                            )
 
 add_subdirectory(vendor/glfw)
 add_subdirectory(vendor/glm)

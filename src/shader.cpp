@@ -5,8 +5,6 @@
 #include <sstream>
 #include <algorithm>
 
-#include "shader_manager.h"
-
 Shader::Shader(const char *vertexPath, const char *fragmentPath, const char *geometryPath)
 {
     std::string vertexSource = LoadFromFile(vertexPath);
@@ -20,18 +18,10 @@ Shader::Shader(const char *vertexPath, const char *fragmentPath, const char *geo
     {
         Compile(vertexSource.c_str(), fragmentSource.c_str(), nullptr);
     }
-    ShaderManager::instance.shaders.push_back(this);
 }
 
 Shader::~Shader()
 {
-    auto& shaders = ShaderManager::instance.shaders;
-    for (int i = 0; i<shaders.size(); i++)
-        if (shaders[i] == this) {
-            //erase shader pointer off shadermanager list once destructed
-            std::swap(shaders.back(),shaders[i]);
-            shaders.resize(shaders.size()-1);
-        }
     glDeleteProgram(this->ID);
 }
 
@@ -93,7 +83,7 @@ void Shader::SetMatrix4(const char *name, const glm::mat4 &matrix, bool useShade
 {
     if (useShader)
         this->Use();
-    glUniformMatrix4fv(glGetUniformLocation(this->ID, name), 1, false, glm::value_ptr(matrix));
+    glUniformMatrix4fv(glGetUniformLocation(this->ID, name), 1, false, &matrix[0][0]);
 }
 
 std::string Shader::LoadFromFile(const char *path)
@@ -101,7 +91,7 @@ std::string Shader::LoadFromFile(const char *path)
     std::ifstream fs(path);
     if (!fs || fs.bad())
     {
-        std::cerr << "Failed to open file: " << path << std::endl;
+        std::cerr << "Failed to open file: " << path << " Reason: " << std::strerror(errno) << std::endl;
         return "";
     }
     std::stringstream buffer;

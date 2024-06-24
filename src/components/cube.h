@@ -1,9 +1,12 @@
 #pragma once
+
 #include "mesh.h"
 
-class Cube : public Mesh {
-    void Load_Texture() override{};
-    void Load_Mesh() override;
-    public:
-    Cube(Shader* shader);
+class Cube : public Mesh
+{
+    void LoadTexture() override {};
+    void LoadMesh() override {};
+
+public:
+    Cube(Shader *shader);
 };

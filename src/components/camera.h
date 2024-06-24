@@ -1,19 +1,25 @@
 #pragma once
-#include "component.h"
-#include "../global_defines.h"
+
 #include <glm/glm.hpp>
-#include "shader_manager.h"
 
-class ShaderViewProjectionGlobal : public TypedShaderGlobal<CGMAT4> {
-    void shaderUpdateUniform() override;
-    unsigned layoutLocation() const override;
-};
+#include "component.h"
+#include "transform.h"
 
-class Camera : public Component {
-    CGMAT4 vp = CGMAT4();
-    public:
+class Camera : public Component
+{
+public:
+    static Camera *main;
+
+public:
     void Update() override;
     void Init() override;
-    ShaderViewProjectionGlobal shaderUniform;
-    Camera() = default;
+    Camera();
+    Camera(int w, int h);
+    glm::mat4 GetViewMatrix();
+    glm::mat4 GetProjectionMatrix();
+
+private:
+    Transform *transform = nullptr;
+    glm::mat4 view = {};
+    glm::mat4 projection = {};
 };

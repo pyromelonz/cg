@@ -5,16 +5,33 @@
 #include "frame_limiter.h"
 #include "CGConfig.h"
 #include "shader.h"
-#include "game_object.h"
-#include "input.h"
 #include "components/camera.h"
+
+#include "entity_manager.h"
 #include "components/cube.h"
 #include "components/transform.h"
 #include <memory>
 
-#define WIDTH 800
-#define HEIGHT 600
+#define WIDTH 1024
+#define HEIGHT 768
 
+#ifndef __APPLE__
+#ifndef NDEBUG
+void GLAPIENTRY
+MessageCallback(GLenum source,
+                GLenum type,
+                GLuint id,
+                GLenum severity,
+                GLsizei length,
+                const GLchar *message,
+                const void *userParam)
+{
+    fprintf(stderr, "GL CALLBACK: %s type = 0x%x, severity = 0x%x, message = %s\n",
+            (type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : ""),
+            type, severity, message);
+}
+#endif
+#endif
 static void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 static void cursor_position_callback(GLFWwindow *window, double xpos, double ypos);
 static void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods);
@@ -22,12 +39,21 @@ static void mouse_button_callback(GLFWwindow *window, int button, int action, in
 
 int main()
 {
-    srand(time(NULL));
+    // srand(time(NULL));
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+#ifdef __APPLE__
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+#else
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+#endif
+
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+#ifndef NDEBUG
+    glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
+#endif
 
 #ifdef __APPLE__
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
@@ -47,50 +73,44 @@ int main()
         std::cout << "Failed to initialize GLAD" << std::endl;
         return -1;
     }
-
     glViewport(0, 0, WIDTH, HEIGHT);
-
+#ifndef __APPLE__
+#ifndef NDEBUG
+    glEnable(GL_DEBUG_OUTPUT);
+    glDebugMessageCallback(MessageCallback, 0);
+#endif
+#endif
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     glfwSetCursorPosCallback(window, cursor_position_callback);
-    glfwSetKeyCallback(window, key_callback);
-    glfwSetMouseButtonCallback(window, mouse_button_callback);
-    
-    Shader shader("assets/shaders/basic.vs", "assets/shaders/basic.fs", nullptr);
-   
-    /*
-    for (int i = 0; i < 300; i++)
-    {
-        Quad *quad = new Quad(((float)rand() / (float)(RAND_MAX) * 2) - 1.0f, ((float)rand() / (float)(RAND_MAX) * 2) - 1.0f, 0.01f, 0.01f, &shader);
-        EntityManager::instance().AddGameObject(quad);
-    }*/
+    glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 
-    auto& EM = EntityManager::instance();
+    auto &EM = EntityManager::instance();
 
-    {
-        auto cam = std::make_unique<Entity>(), cube = std::make_unique<Entity>();
-        auto cam_trans = std::make_unique<Transform>();
-        cam_trans->pos = CGXYZ(0);
-        cam->addComponent(std::move(cam_trans));
-        cam->addComponent(std::make_unique<Camera>());
-        auto cube_trans = std::make_unique<Transform>();
-        cube_trans->pos = CGXYZ(2.0,0.0,0.0);
-        cube->addComponent(std::move(cube_trans));
-        cube->addComponent(std::make_unique<Cube>(&shader));
+    auto cam = std::make_unique<Entity>(), cube = std::make_unique<Entity>();
+    auto cam_trans = new Transform(glm::vec3(0.0f, 0.0f, 5.0f));
+    cam->addComponent(cam_trans);
+    cam->addComponent(new Camera(WIDTH, HEIGHT));
+    EM.AddEntity(std::move(cam));
 
-        EM.AddGameObject(std::move(cam));
-        EM.AddGameObject(std::move(cube));
-    }
+    auto cube_trans = new Transform;
+    cube->addComponent(cube_trans);
+    Shader *shader = new Shader("assets/shaders/basic.vs", "assets/shaders/basic.fs");
+    cube->addComponent(new Cube(shader));
+
+    EM.AddEntity(std::move(cube));
 
     FrameLimiter limiter(120);
     std::cout << "OpenGL version: " << glGetString(GL_VERSION) << std::endl;
+
+    EM.Init();
+
 #ifdef __APPLE__
     bool hasWindowBeenFixed = false;
 #endif
     while (!glfwWindowShouldClose(window))
     {
         // Black background
-        glClearColor(0, 0, 0, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         EntityManager::instance().Update();
         glfwSwapBuffers(window);
@@ -102,7 +122,6 @@ int main()
             glfwSetWindowPos(window, 50, 50);
         }
 #endif
-        Input::instance().ClearOnceKeys();
         limiter.next_frame();
     }
 
@@ -113,10 +132,6 @@ int main()
 static void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 {
     glViewport(0, 0, width, height);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glOrtho(0.0f, width, height, 0.0f, 0.0f, 1.0f);
-    glMatrixMode(GL_MODELVIEW);
 }
 
 static void cursor_position_callback(GLFWwindow *window, double xpos, double ypos)
