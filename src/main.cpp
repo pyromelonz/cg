@@ -81,6 +81,9 @@ int main()
 #endif
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     glfwSetCursorPosCallback(window, cursor_position_callback);
+    glfwSetKeyCallback(window, key_callback);
+    glfwSetMouseButtonCallback(window, mouse_button_callback);
+
     glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
@@ -122,6 +125,7 @@ int main()
             glfwSetWindowPos(window, 50, 50);
         }
 #endif
+        Input::instance().ClearOnceKeys();
         limiter.next_frame();
     }
 
