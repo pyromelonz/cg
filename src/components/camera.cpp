@@ -42,17 +42,5 @@ void Camera::Init()
 
 void Camera::Update()
 {
-    glm::mat4 matRoll = glm::mat4(1.0f);
-    glm::mat4 matPitch = glm::mat4(1.0f);
-    glm::mat4 matYaw = glm::mat4(1.0f);
-
-    matRoll = glm::rotate(matRoll, (float)transform->Rotation.z, glm::vec3(0, 0, 1));
-    matPitch = glm::rotate(matPitch, (float)transform->Rotation.x, glm::vec3(1, 0, 0));
-    matYaw = glm::rotate(matYaw, (float)transform->Rotation.y, glm::vec3(0, 1, 0));
-
-    glm::mat4 rotation = matRoll * matPitch * matYaw;
-
-    glm::mat4 translation = glm::translate(glm::mat4(1.0f), glm::vec3(-transform->Position.x, -transform->Position.y, -transform->Position.z));
-
-    view = rotation * translation;
+    view = glm::lookAt(transform->Position, transform->Position + transform->Rotation * glm::vec3(0.0f, 0.0f, -1.0f), transform->Rotation * glm::vec3(0.0f, 1.0f, 0.0f));
 }

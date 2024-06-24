@@ -92,8 +92,7 @@ int main()
     auto &EM = EntityManager::instance();
 
     auto cam = std::make_unique<Entity>(), cube = std::make_unique<Entity>();
-    auto cam_trans = new Transform;
-    cam_trans->Position = CGXYZ(0);
+    auto cam_trans = new Transform(glm::vec3(0.0f, 0.0f, 5.0f));
     cam->addComponent(cam_trans);
     cam->addComponent(new Camera(WIDTH, HEIGHT));
     EM.AddEntity(std::move(cam));
