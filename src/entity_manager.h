@@ -3,12 +3,6 @@
 #include <memory>
 #include "components/component.h"
 
-struct Mouse
-{
-    double x;
-    double y;
-};
-
 class EntityManager
 {
 public:
@@ -17,8 +11,6 @@ public:
         static EntityManager instance;
         return instance;
     }
-
-    Mouse mouse;
     void Init();
     // Add a game object to the manager
     void AddEntity(std::unique_ptr<Entity> &&gameObject);
@@ -34,6 +26,5 @@ private:
 
     EntityManager(EntityManager const &) = delete;
     void operator=(EntityManager const &) = delete;
-
     std::vector<std::unique_ptr<Entity>> gameObjects;
 };

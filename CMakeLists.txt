@@ -16,21 +16,18 @@ set_target_properties(CG PROPERTIES CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOU
 set_target_properties(CG PROPERTIES OUTPUT_NAME_DEBUG "CG-dbg")
 set_target_properties(CG PROPERTIES OUTPUT_NAME_RELEASE "CG")
 
-
 target_sources(CG PUBLIC
-                "${PROJECT_SOURCE_DIR}/src/main.cpp"
-                "${PROJECT_SOURCE_DIR}/src/shader.cpp"
-                "${PROJECT_SOURCE_DIR}/src/uniform_buffer.cpp"
-                "${PROJECT_SOURCE_DIR}/src/entity.cpp"
-                "${PROJECT_SOURCE_DIR}/src/components/cube.cpp"
-                "${PROJECT_SOURCE_DIR}/src/components/mesh.cpp"
-                "${PROJECT_SOURCE_DIR}/src/components/transform.cpp"
-                "${PROJECT_SOURCE_DIR}/src/components/camera.cpp"
-                "${PROJECT_SOURCE_DIR}/src/components/component.cpp"
-                "${PROJECT_SOURCE_DIR}/src/entity_manager.cpp"
-
-                "${PROJECT_SOURCE_DIR}/vendor/glad/src/glad.c"
-                )
+               "${PROJECT_SOURCE_DIR}/src/main.cpp"
+               "${PROJECT_SOURCE_DIR}/src/shader.cpp"
+               "${PROJECT_SOURCE_DIR}/src/entity.cpp"
+               "${PROJECT_SOURCE_DIR}/src/input.cpp"
+               "${PROJECT_SOURCE_DIR}/src/components/component.cpp"
+               "${PROJECT_SOURCE_DIR}/src/components/cube.cpp"
+               "${PROJECT_SOURCE_DIR}/src/components/mesh.cpp"
+               "${PROJECT_SOURCE_DIR}/src/components/transform.cpp"
+               "${PROJECT_SOURCE_DIR}/src/components/camera.cpp"
+               "${PROJECT_SOURCE_DIR}/src/entity_manager.cpp"
+               "${PROJECT_SOURCE_DIR}/vendor/glad/src/glad.c")
 
 target_include_directories(CG PUBLIC
                             "${PROJECT_BINARY_DIR}"

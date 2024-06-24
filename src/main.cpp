@@ -15,16 +15,6 @@
 #define WIDTH 1024
 #define HEIGHT 768
 
-static void framebuffer_size_callback(GLFWwindow *window, int width, int height)
-{
-    glViewport(0, 0, width, height);
-}
-
-static void cursor_position_callback(GLFWwindow *window, double xpos, double ypos)
-{
-    EntityManager::instance().mouse.x = xpos;
-    EntityManager::instance().mouse.y = ypos;
-}
 #ifndef __APPLE__
 #ifndef NDEBUG
 void GLAPIENTRY
@@ -42,6 +32,11 @@ MessageCallback(GLenum source,
 }
 #endif
 #endif
+static void framebuffer_size_callback(GLFWwindow *window, int width, int height);
+static void cursor_position_callback(GLFWwindow *window, double xpos, double ypos);
+static void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods);
+static void mouse_button_callback(GLFWwindow *window, int button, int action, int mods);
+
 int main()
 {
     // srand(time(NULL));
@@ -132,4 +127,24 @@ int main()
 
     glfwTerminate();
     return 0;
+}
+
+static void framebuffer_size_callback(GLFWwindow *window, int width, int height)
+{
+    glViewport(0, 0, width, height);
+}
+
+static void cursor_position_callback(GLFWwindow *window, double xpos, double ypos)
+{
+    Input::instance().SetCursorPosCallback(window, xpos, ypos);
+}
+
+static void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods)
+{
+    Input::instance().SetKeyCallback(window, key, scancode, action, mods);
+}
+
+static void mouse_button_callback(GLFWwindow *window, int button, int action, int mods)
+{
+    Input::instance().SetMouseButtonCallback(window, button, action, mods);
 }
