@@ -6,7 +6,7 @@
 #include "CGConfig.h"
 #include "shader.h"
 #include "components/camera.h"
-
+#include "input.h"
 #include "entity_manager.h"
 #include "components/cube.h"
 #include "components/transform.h"
