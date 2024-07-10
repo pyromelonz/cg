@@ -40,7 +40,7 @@ void Camera::Init()
     updatePriority = 5;
 }
 
-void Camera::Update()
+void Camera::Update(double delta)
 {
     view = glm::lookAt(transform->Position, transform->Position + transform->Rotation * glm::vec3(0.0f, 0.0f, -1.0f), transform->Rotation * glm::vec3(0.0f, 1.0f, 0.0f));
 }

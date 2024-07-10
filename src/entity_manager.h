@@ -17,7 +17,7 @@ public:
     // Remove a game object from the manager
     void RemoveEntity(Entity *gameObject);
     // Called once per frame
-    void Update();
+    void Update(double delta);
     // Called once per fixed amount of time, currently unused
     void FixedUpdate();
 

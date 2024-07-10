@@ -11,6 +11,7 @@
 #include "entity_manager.h"
 #include "components/cube.h"
 #include "components/transform.h"
+#include "components/controller.h"
 
 #define WIDTH 1024
 #define HEIGHT 768
@@ -95,6 +96,7 @@ int main()
 
     cam->addComponent(new Transform(glm::vec3(0.0f, 0.0f, 5.0f)));
     cam->addComponent(new Camera(WIDTH, HEIGHT));
+    cam->addComponent(new Controller);
     EM.AddEntity(std::move(cam));
 
     cube->addComponent(new Transform);
@@ -107,6 +109,11 @@ int main()
 
     EM.Init();
 
+    //lock cursor
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+    double delta_t = 0;
+
 #ifdef __APPLE__
     bool hasWindowBeenFixed = false;
 #endif
@@ -115,7 +122,7 @@ int main()
         // Black background
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        EntityManager::instance().Update();
+        EntityManager::instance().Update(delta_t);
         glfwSwapBuffers(window);
         glfwPollEvents();
 #ifdef __APPLE__
@@ -126,7 +133,7 @@ int main()
         }
 #endif
         Input::instance().ClearOnceKeys();
-        limiter.next_frame();
+        delta_t = limiter.next_frame();
     }
 
     glfwTerminate();

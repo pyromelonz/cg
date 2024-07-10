@@ -98,7 +98,8 @@ enum KeyCode
     BackSlash = 220,
     CloseBracket = 221,
     Quotes = 222,
-    LAST_KEY = Quotes
+    Shift = GLFW_KEY_LEFT_SHIFT,
+    LAST_KEY = Shift
 };
 enum MouseButton
 {

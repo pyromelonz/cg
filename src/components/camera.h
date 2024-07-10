@@ -11,7 +11,7 @@ public:
     static Camera *main;
 
 public:
-    void Update() override;
+    void Update(double delta) override;
     void Init() override;
     Camera();
     Camera(int w, int h);

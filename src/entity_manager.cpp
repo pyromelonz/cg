@@ -26,11 +26,11 @@ void EntityManager::Init()
     }
 }
 
-void EntityManager::Update()
+void EntityManager::Update(double delta)
 {
     for (auto &gameObject : gameObjects)
     {
-        gameObject->Update();
+        gameObject->Update(delta);
     }
 }
 

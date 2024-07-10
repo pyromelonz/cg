@@ -6,7 +6,7 @@
 #include "entity.h"
 #include "camera.h"
 
-void Mesh::Update()
+void Mesh::Update(double delta)
 {
     pShader->Use();
     pShader->SetMatrix4("viewMatrix", Camera::main->GetViewMatrix());

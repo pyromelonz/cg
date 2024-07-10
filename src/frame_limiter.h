@@ -14,10 +14,12 @@ public:
         last = std::chrono::steady_clock::now();
     }
 
-    void next_frame()
+    double next_frame()
     {
         using namespace std::chrono;
         std::this_thread::sleep_until(last + spf);
+        auto tmp = last;
         last = steady_clock::now();
+        return duration_cast<duration<double>>(last - tmp).count();
     }
 };

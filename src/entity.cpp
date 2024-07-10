@@ -9,10 +9,10 @@ void Entity::addComponent(Component *component)
     component->pEntity = this;
 }
 
-void Entity::Update()
+void Entity::Update(double delta)
 {
     for (auto &c : components)
-        c->Update();
+        c->Update(delta);
 }
 
 void Entity::Init()

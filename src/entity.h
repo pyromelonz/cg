@@ -10,7 +10,7 @@ class Entity
 
 public:
     void addComponent(Component *);
-    void Update();
+    void Update(double delta);
     void Init();
     void FixedUpdate();
     template <typename ComponentType>

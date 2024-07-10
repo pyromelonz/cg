@@ -21,6 +21,6 @@ public:
     virtual void LoadMesh() = 0;
     virtual void LoadTexture() = 0;
     void Init() override;
-    void Update() override;
+    void Update(double delta) override;
     void FixedUpdate() override {};
 };
