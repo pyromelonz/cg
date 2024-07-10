@@ -81,7 +81,7 @@ std::array<GLfloat,48> cube_uvCoords = {
 };
 
 static constexpr
-std::array<uint16_t,36> cube_indices = {
+std::array<uint32_t,36> cube_indices = {
     0, 1, 2, 2, 3, 0, // Front face
     4, 5, 6, 6, 7, 4, // Back face
     8, 9, 10, 10, 11, 8, // Left face

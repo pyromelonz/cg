@@ -12,7 +12,7 @@ class Mesh : public Component
 protected:
     std::vector<GLfloat> vertices;
     std::vector<GLfloat> uv_coords;
-    std::vector<uint16_t>indices;
+    std::vector<uint32_t>indices;
     unsigned ebo, vbo, vao;
     Shader *pShader;
 
@@ -20,7 +20,7 @@ public:
     Mesh(Shader *pShaderProgram, const char *objPath);
     Mesh(Shader *pShaderProgram,
         const GLfloat *vertex_data, size_t vertex_count,
-        const uint16_t*index_data, size_t index_count,
+        const uint32_t*index_data, size_t index_count,
         const GLfloat *uv_data = nullptr, size_t uv_count = 0);
 
     virtual void LoadMesh() = 0;
