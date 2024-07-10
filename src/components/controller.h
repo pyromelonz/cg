@@ -15,7 +15,6 @@ class Controller : public Component {
 
     public:
     Controller();
-    ~Controller();
     void ConnectTransform(Transform* transform);
     void Update(double delta) override;
     void Init() override;
