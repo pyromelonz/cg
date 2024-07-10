@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <algorithm>
 
 Shader::Shader(const char *vertexPath, const char *fragmentPath, const char *geometryPath)
 {
@@ -82,7 +83,7 @@ void Shader::SetMatrix4(const char *name, const glm::mat4 &matrix, bool useShade
 {
     if (useShader)
         this->Use();
-    glUniformMatrix4fv(glGetUniformLocation(this->ID, name), 1, false, glm::value_ptr(matrix));
+    glUniformMatrix4fv(glGetUniformLocation(this->ID, name), 1, false, &matrix[0][0]);
 }
 
 std::string Shader::LoadFromFile(const char *path)
@@ -90,7 +91,7 @@ std::string Shader::LoadFromFile(const char *path)
     std::ifstream fs(path);
     if (!fs || fs.bad())
     {
-        std::cerr << "Failed to open file: " << path << std::endl;
+        std::cerr << "Failed to open file: " << path << " Reason: " << std::strerror(errno) << std::endl;
         return "";
     }
     std::stringstream buffer;
