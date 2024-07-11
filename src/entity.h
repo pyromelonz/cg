@@ -1,17 +1,20 @@
 #pragma once
 
 #include <vector>
+#include <cstdint>
 
 class Component;
 
 class Entity
 {
     std::vector<Component *> components;
-
+    uint32_t flags = 0;
 public:
+    uint32_t getFlags() const;
     void addComponent(Component *);
     void Update(double delta);
     void Init();
+    void Render();
     void FixedUpdate();
     template <typename ComponentType>
     ComponentType *getComponent()

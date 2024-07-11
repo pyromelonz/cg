@@ -28,5 +28,6 @@ public:
     virtual void LoadTexture() = 0;
     void Init() override;
     void Update(double delta) override;
+    void Render() override;
     void FixedUpdate() override {};
 };

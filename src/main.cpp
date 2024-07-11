@@ -9,12 +9,14 @@
 #include "components/camera.h"
 #include "input.h"
 #include "entity_manager.h"
+#include "shader_manager.h"
 #include "components/cube.h"
 #include "components/transform.h"
 #include "components/controller.h"
 
-#define WIDTH 1024
-#define HEIGHT 768
+#define DEBUG
+
+static constexpr unsigned WIDTH = 1024, HEIGHT = 768;
 
 #ifndef __APPLE__
 #ifndef NDEBUG
@@ -88,21 +90,29 @@ int main()
     glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
+    
+    ShaderManager::instance().wndResize(WIDTH, HEIGHT);
+    ShaderManager::instance().Init();
 
     auto &EM = EntityManager::instance();
 
-    auto cam = std::make_unique<Entity>(), cube = std::make_unique<Entity>();
-    Shader *shader = new Shader("assets/shaders/basic.vs", "assets/shaders/basic.fs", "assets/shaders/basic.gs");
+    auto cam = std::make_unique<Entity>(), cube1 = std::make_unique<Entity>(), cube2 = std::make_unique<Entity>();
 
     cam->addComponent(new Transform(glm::vec3(0.0f, 0.0f, 5.0f)));
     cam->addComponent(new Camera(WIDTH, HEIGHT));
     cam->addComponent(new Controller);
     EM.AddEntity(std::move(cam));
 
-    cube->addComponent(new Transform);
-    cube->addComponent(new Cube(shader));
+    cube1->addComponent(new Transform);
+    cube1->addComponent(new Cube(ShaderManager::instance().mainShader));
 
-    EM.AddEntity(std::move(cube));
+    cube2->addComponent(new Transform(glm::vec3(0.0f, 0.0f, -3.0f)));
+    cube2->getComponent<Transform>()->Scale = glm::vec3(0.5f);
+    cube2->getComponent<Transform>()->Rotation = glm::quat(glm::vec3(0.3f, 1.0f, 0.8f));
+    cube2->addComponent(new Cube(ShaderManager::instance().mainShader));
+
+    EM.AddEntity(std::move(cube1));
+    EM.AddEntity(std::move(cube2));
 
     FrameLimiter limiter(120);
     std::cout << "OpenGL version: " << glGetString(GL_VERSION) << std::endl;
@@ -120,9 +130,6 @@ int main()
 #endif
     while (!glfwWindowShouldClose(window))
     {
-        // Black background
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
         EntityManager::instance().Update(delta_t);
         glfwSwapBuffers(window);
         glfwPollEvents();
@@ -148,7 +155,7 @@ int main()
 
 static void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 {
-    glViewport(0, 0, width, height);
+    ShaderManager::instance().wndResize(width,height);
 }
 
 static void cursor_position_callback(GLFWwindow *window, double xpos, double ypos)

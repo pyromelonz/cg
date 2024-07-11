@@ -2,6 +2,12 @@
 
 #include "entity.h"
 #include "components/component.h"
+#include "components/mesh.h"
+#include "components/light.h"
+
+uint32_t Entity::getFlags() const {
+    return flags;
+}
 
 void Entity::addComponent(Component *component)
 {
@@ -18,7 +24,10 @@ void Entity::Update(double delta)
 void Entity::Init()
 {
     for (auto &c : components)
+    {
         c->Init();
+        flags |= c->flags;
+    }
 }
 
 void Entity::FixedUpdate()
@@ -31,4 +40,10 @@ void Entity::removeComponent(unsigned index)
 {
     delete components[index];
     components.erase(components.begin() + index);
+}
+
+void Entity::Render() {
+    for (auto& c : components)
+        if (c->flags&RENDER_OBJECT)
+            c->Render();
 }

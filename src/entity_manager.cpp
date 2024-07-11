@@ -1,6 +1,7 @@
 #include <algorithm>
 
 #include "entity_manager.h"
+#include "shader_manager.h"
 
 void EntityManager::AddEntity(std::unique_ptr<Entity> &&gameObject)
 {
@@ -26,11 +27,21 @@ void EntityManager::Init()
     }
 }
 
+#include <iostream>
+
 void EntityManager::Update(double delta)
 {
     for (auto &gameObject : gameObjects)
     {
         gameObject->Update(delta);
+    }
+
+    while (ShaderManager::instance().PreparePass()) {
+        for (auto& gameObject : gameObjects) {
+            if (gameObject->getFlags() & RENDER_OBJECT) {
+                gameObject->Render();
+            }
+        }
     }
 }
 

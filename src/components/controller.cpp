@@ -7,7 +7,6 @@ Controller::Controller() {
 void Controller::Update(double delta) {
     {
         static constexpr double sensitivity = 0.1;
-        //add timer to mouse once delta t available
         auto tmp = Input::instance().GetMousePosition();
         mouse_velocity = {(tmp.x - last_mouse.x) * delta * sensitivity, (tmp.y - last_mouse.y) * delta * sensitivity};
         last_mouse = tmp;
@@ -20,9 +19,6 @@ void Controller::Update(double delta) {
             (transform->*(std::get<1>(a)))(std::get<2>(a)*delta*speed);
         }
     }
-
-
-    //
 
 }
 

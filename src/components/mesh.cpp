@@ -5,19 +5,23 @@
 #include "transform.h"
 #include "entity.h"
 #include "camera.h"
+#include "shader_manager.h"
 
 void Mesh::Update(double delta)
 {
-    pShader->Use();
+}
+
+void Mesh::Render() {
+    
+    //pShader->Use();
     /*
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, normalMap);
     pShader->SetInteger("normalMap",0);
     */
-    pShader->SetMatrix4("viewMatrix", Camera::main->GetViewMatrix());
-    pShader->SetMatrix4("g_ProjectionMatrix", Camera::main->GetProjectionMatrix());
+
+   //auto pShader = ShaderManager::instance().CurrentShader();
     pShader->SetMatrix4("modelMatrix", this->pEntity->getComponent<Transform>()->GetMatrix());
-    
     
     glBindVertexArray(vao);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
@@ -28,7 +32,8 @@ void Mesh::Update(double delta)
 
 void Mesh::Init()
 {
-    updatePriority = UpdatePriorities::Render;
+    updatePriority = UpdatePriorities::PRIORITY_RENDER;
+    flags |= RENDER_OBJECT;
     LoadMesh();
     LoadTexture();
 

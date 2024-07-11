@@ -47,3 +47,8 @@ void Camera::Update(double delta)
         transform->Position + transform->Rotation * glm::vec3(0.0f, 0.0f, -1.0f),
         transform->Rotation * glm::vec3(0.0f, 1.0f, 0.0f));
 }
+
+void Camera::SetShaderVP(Shader* pShader,const char* v_name, const char* p_name) {
+    pShader->SetMatrix4(v_name, GetViewMatrix());
+    pShader->SetMatrix4(p_name, GetProjectionMatrix());
+}

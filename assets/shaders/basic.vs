@@ -7,10 +7,10 @@ out vec3 vPos;
 
 uniform mat4 viewMatrix;
 uniform mat4 modelMatrix;
-uniform mat4 g_ProjectionMatrix;
+uniform mat4 projectionMatrix;
 
 void main() {
     vPos = aPos.xyz;
     vUv = uv;
-    gl_Position = g_ProjectionMatrix * viewMatrix * modelMatrix * vec4(aPos, 1.0);
+    gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(aPos, 1.0);
 }

@@ -3,9 +3,14 @@
 #include "entity.h"
 #include <cstdint>
 
+enum COMPONENT_FLAGS {
+    RENDER_OBJECT = 1
+};
+
 class Component
 {
 protected:
+    uint32_t flags = 0;
     Entity *pEntity = nullptr;
     friend Entity;
 
@@ -15,9 +20,10 @@ public:
     virtual void Update(double delta) = 0; //consider a delta time parameter
     virtual void FixedUpdate() {};
     virtual void Init() = 0;
-    uint8_t GetUpdatePriority() const;
+    virtual void Render() {};
+uint8_t GetUpdatePriority() const;
 
     enum UpdatePriorities {
-        MIN, Geometry = 5, Render= 10
+        PRIORITY_MIN, PRIORITY_GEOMETRY = 5, PRIORITY_RENDER= 10
     };
 };
