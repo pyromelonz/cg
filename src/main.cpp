@@ -115,13 +115,20 @@ int main()
         }
     }
 
-    auto light = std::make_unique<Entity>();
-    light->addComponent(new Transform(glm::vec3(0.0, 5.0, 0.0)));
-    light->getComponent<Transform>()->Rotation = glm::quat(glm::vec3(-1.0f,0.0,0.0));
-    light->addComponent(new Light());
-    light->addComponent(new Camera(10.0f, 1.0f,7.5f));
+    auto light1 = std::make_unique<Entity>();
+    light1->addComponent(new Transform(glm::vec3(-5.0, 3.0, 0.0)));
+    light1->addComponent(new Light());
+    light1->addComponent(new Camera(40.0f,0.1f,100.0f));
+    light1->addComponent(new Cube(ShaderManager::instance().mainShader));
+    EM.AddEntity(std::move(light1));
 
-    EM.AddEntity(std::move(light));
+    auto light2 = std::make_unique<Entity>();
+    light2->addComponent(new Transform(glm::vec3(8.0, 6.0, 0.0)));
+    light2->addComponent(new Light());
+    light2->addComponent(new Camera(40.0f,0.1f,100.0f));
+    light2->addComponent(new Cube(ShaderManager::instance().mainShader));
+    light2->getComponent<Transform>()->Rotation = glm::quat(glm::vec3(-1.0f,1.0f,0.0f));
+    EM.AddEntity(std::move(light2));
 
     FrameLimiter limiter(120);
     std::cout << "OpenGL version: " << glGetString(GL_VERSION) << std::endl;

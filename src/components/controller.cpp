@@ -3,7 +3,6 @@
 Controller::Controller() {
     updatePriority = 4;
 }
-#include <iostream>
 void Controller::Update(double delta) {
     {
         static constexpr double sensitivity = 0.1;

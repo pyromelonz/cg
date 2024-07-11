@@ -29,6 +29,7 @@ public:
     void SetMatrix4Array(const char*name, const glm::mat4* matrices, unsigned count, bool useShader = false);
     void SetIntegerArray(const char*name, const int* values, unsigned count, bool useShader = false);
     void SetVector3fArray(const char*name, const glm::vec3* values, unsigned count, bool useShader = false);
+    void SetTextureArray(const char *name, GLuint textureArray, GLint unit, bool useShader = false);
 
 private:
     std::string LoadFromFile(const char *path);

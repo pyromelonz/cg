@@ -104,6 +104,14 @@ void Shader::SetVector3fArray(const char*name, const glm::vec3* values, unsigned
     glUniform3fv(glGetUniformLocation(this->ID, name), count, &values[0][0]);
 }
 
+void Shader::SetTextureArray(const char *name, GLuint textureArray, GLint unit, bool useShader)
+{
+    if (useShader)
+        this->Use();
+    glActiveTexture(GL_TEXTURE0 + unit);
+    glBindTexture(GL_TEXTURE_2D_ARRAY, textureArray);
+    glUniform1i(glGetUniformLocation(this->ID, name), unit);
+}
 
 std::string Shader::LoadFromFile(const char *path)
 {

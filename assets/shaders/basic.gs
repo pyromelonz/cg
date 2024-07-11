@@ -1,11 +1,13 @@
-#version 330 core
+#version 430 core
 
 layout(triangles) in;
 layout(triangle_strip, max_vertices = 3) out;
 
 in vec2 vUv[];
 in vec3 vPos[];
+in vec4 PosLightSpace[][10];
 
+out vec4 FragPosLightSpace[10];
 out vec3 fragPos;
 out vec2 fragUv;
 out vec3 geomNormal; // Output geometry normal to fragment shader
@@ -20,6 +22,9 @@ void main() {
         gl_Position = gl_in[i].gl_Position;
         fragPos = vPos[i];
         fragUv = vUv[i];
+        for (int j = 0; j < 10; ++j) {
+            FragPosLightSpace[j] = PosLightSpace[i][j];
+        }
         EmitVertex();
     }
     

@@ -16,6 +16,10 @@ class ShaderManager {
     std::vector<glm::vec3> lightPositions;
     std::vector<GLuint> shadowMaps;
 
+    GLuint shadowMapArray;
+
+    void generateShadowMapArray();
+
     Shader* currentShader;
 
     public:
