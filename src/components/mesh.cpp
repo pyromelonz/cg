@@ -9,9 +9,16 @@
 void Mesh::Update(double delta)
 {
     pShader->Use();
+    /*
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, normalMap);
+    pShader->SetInteger("normalMap",0);
+    */
     pShader->SetMatrix4("viewMatrix", Camera::main->GetViewMatrix());
     pShader->SetMatrix4("g_ProjectionMatrix", Camera::main->GetProjectionMatrix());
     pShader->SetMatrix4("modelMatrix", this->pEntity->getComponent<Transform>()->GetMatrix());
+    
+    
     glBindVertexArray(vao);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
     glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
@@ -25,28 +32,44 @@ void Mesh::Init()
     LoadMesh();
     LoadTexture();
 
-    for (int o = 0; o<indices.size(); o++) {
-        int i = indices[o];
-        std::cout << "Vertex " << o << ": x=" << vertices[i*3] << ", y="<< vertices[i*3+1]
-        << ", z=" << vertices[i*3+2] << std::endl;
-    }
+    /*
+        glGenTextures(1,&normalMap);
+        glBindTexture(GL_TEXTURE_2D, normalMap);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, smiley_dim,smiley_dim, 0, GL_RGBA, GL_UNSIGNED_BYTE, terrain);
+        glGenerateMipmap(GL_TEXTURE_2D);
 
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    */
 
     glGenVertexArrays(1, &vao);
     glGenBuffers(1, &vbo);
     glGenBuffers(1, &ebo);
+    glGenBuffers(1, &uvbo);
 
     glBindVertexArray(vao);
 
+    //vertices
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(GLfloat), vertices.data(), GL_STATIC_DRAW);
 
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size()*sizeof(uint32_t),indices.data(), GL_STATIC_DRAW);
-    
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE,0, (GLvoid *)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid *)0);
     glEnableVertexAttribArray(0);
 
+    //uv coordinates
+    glBindBuffer(GL_ARRAY_BUFFER, uvbo);
+    glBufferData(GL_ARRAY_BUFFER, uv_coords.size() * sizeof(GLfloat), uv_coords.data(), GL_STATIC_DRAW);
+
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid *)0);
+    glEnableVertexAttribArray(1);
+
+    //index buffer
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size()*sizeof(uint32_t),indices.data(), GL_STATIC_DRAW);
+
+    //unbind
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 }

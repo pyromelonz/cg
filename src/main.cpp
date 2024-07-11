@@ -92,7 +92,7 @@ int main()
     auto &EM = EntityManager::instance();
 
     auto cam = std::make_unique<Entity>(), cube = std::make_unique<Entity>();
-    Shader *shader = new Shader("assets/shaders/basic.vs", "assets/shaders/basic.fs");
+    Shader *shader = new Shader("assets/shaders/basic.vs", "assets/shaders/basic.fs", "assets/shaders/basic.gs");
 
     cam->addComponent(new Transform(glm::vec3(0.0f, 0.0f, 5.0f)));
     cam->addComponent(new Camera(WIDTH, HEIGHT));
@@ -111,6 +111,7 @@ int main()
 
     //lock cursor
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    bool mouse_capture = true;
 
     double delta_t = 0;
 
@@ -132,6 +133,11 @@ int main()
             glfwSetWindowPos(window, 50, 50);
         }
 #endif
+        if (Input::instance().GetKeyDown(KeyCode::Escape)) {
+            mouse_capture = !mouse_capture;
+            glfwSetInputMode(window, GLFW_CURSOR, (mouse_capture * GLFW_CURSOR_DISABLED) | (!mouse_capture*GLFW_CURSOR_NORMAL));
+        }
+        
         Input::instance().ClearOnceKeys();
         delta_t = limiter.next_frame();
     }

@@ -13,7 +13,8 @@ protected:
     std::vector<GLfloat> vertices;
     std::vector<GLfloat> uv_coords;
     std::vector<uint32_t>indices;
-    unsigned ebo, vbo, vao;
+    unsigned ebo, vbo, vao, uvbo;
+    //unsigned normalMap;
     Shader *pShader;
 
 public:
