@@ -4,7 +4,8 @@
 #include <cstdint>
 
 enum COMPONENT_FLAGS {
-    RENDER_OBJECT = 1
+    RENDER_OBJECT = 1,
+    LIGHT_SOURCE = 2,
 };
 
 class Component

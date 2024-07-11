@@ -13,6 +13,7 @@
 #include "components/cube.h"
 #include "components/transform.h"
 #include "components/controller.h"
+#include "components/light.h"
 
 #define DEBUG
 
@@ -96,23 +97,31 @@ int main()
 
     auto &EM = EntityManager::instance();
 
-    auto cam = std::make_unique<Entity>(), cube1 = std::make_unique<Entity>(), cube2 = std::make_unique<Entity>();
+    auto cam = std::make_unique<Entity>();
 
     cam->addComponent(new Transform(glm::vec3(0.0f, 0.0f, 5.0f)));
     cam->addComponent(new Camera(WIDTH, HEIGHT));
     cam->addComponent(new Controller);
     EM.AddEntity(std::move(cam));
 
-    cube1->addComponent(new Transform);
-    cube1->addComponent(new Cube(ShaderManager::instance().mainShader));
 
-    cube2->addComponent(new Transform(glm::vec3(0.0f, 0.0f, -3.0f)));
-    cube2->getComponent<Transform>()->Scale = glm::vec3(0.5f);
-    cube2->getComponent<Transform>()->Rotation = glm::quat(glm::vec3(0.3f, 1.0f, 0.8f));
-    cube2->addComponent(new Cube(ShaderManager::instance().mainShader));
+    for (int x = 0; x<16; x++) {
+        for (int y = 0; y<16; y++) {
+            auto cube = std::make_unique<Entity>();
+            cube->addComponent(new Transform(glm::vec3(static_cast<double>(x), -5.0, static_cast<double>(y))));
+            cube->addComponent(new Cube(ShaderManager::instance().mainShader));
+            cube->getComponent<Transform>()->Scale = glm::vec3(1.0,5.0,1.0);
+            EM.AddEntity(std::move(cube));
+        }
+    }
 
-    EM.AddEntity(std::move(cube1));
-    EM.AddEntity(std::move(cube2));
+    auto light = std::make_unique<Entity>();
+    light->addComponent(new Transform(glm::vec3(0.0, 5.0, 0.0)));
+    light->getComponent<Transform>()->Rotation = glm::quat(glm::vec3(-1.0f,0.0,0.0));
+    light->addComponent(new Light());
+    light->addComponent(new Camera(10.0f, 1.0f,7.5f));
+
+    EM.AddEntity(std::move(light));
 
     FrameLimiter limiter(120);
     std::cout << "OpenGL version: " << glGetString(GL_VERSION) << std::endl;

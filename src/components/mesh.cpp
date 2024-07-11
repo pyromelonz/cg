@@ -20,8 +20,9 @@ void Mesh::Render() {
     pShader->SetInteger("normalMap",0);
     */
 
-   //auto pShader = ShaderManager::instance().CurrentShader();
+    auto pShader = ShaderManager::instance().CurrentShader();
     pShader->SetMatrix4("modelMatrix", this->pEntity->getComponent<Transform>()->GetMatrix());
+    pShader->SetVector3f("objectPosition", this->pEntity->getComponent<Transform>()->Position);
     
     glBindVertexArray(vao);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);

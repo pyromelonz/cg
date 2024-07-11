@@ -31,6 +31,8 @@ void EntityManager::Init()
 
 void EntityManager::Update(double delta)
 {
+    ShaderManager::instance().UpdateDelta(delta);
+
     for (auto &gameObject : gameObjects)
     {
         gameObject->Update(delta);

@@ -7,21 +7,20 @@ Camera *Camera::main; // Static member declaration
 Camera::Camera()
 {
     view = glm::mat4(1.0f);
-    projection = glm::perspective(glm::radians(45.0f), 1.0f, 0.1f, 100.0f);
     if (Camera::main == NULL)
     {
         Camera::main = this;
     }
 }
 
-Camera::Camera(int w, int h)
+Camera::Camera(int w, int h, float fov, float near, float far) : Camera()
 {
-    view = glm::mat4(1.0f);
-    projection = glm::perspective(glm::radians(45.0f), (float)w / (float)h, 0.1f, 100.0f);
-    if (Camera::main == NULL)
-    {
-        Camera::main = this;
-    }
+    projection = glm::perspective(glm::radians(fov), (float)w / (float)h, 0.1f, 100.0f);
+}
+
+Camera::Camera(float worldSize, float near, float far) : Camera()
+{
+    projection = glm::ortho(-worldSize, worldSize, -worldSize, worldSize, near, far);
 }
 
 glm::mat4 Camera::GetViewMatrix()
@@ -32,6 +31,11 @@ glm::mat4 Camera::GetViewMatrix()
 glm::mat4 Camera::GetProjectionMatrix()
 {
     return projection;
+}
+
+glm::mat4 Camera::GetViewProjectionMatrix()
+{
+    return projection * view;
 }
 
 void Camera::Init()
@@ -46,6 +50,7 @@ void Camera::Update(double delta)
         transform->Position,
         transform->Position + transform->Rotation * glm::vec3(0.0f, 0.0f, -1.0f),
         transform->Rotation * glm::vec3(0.0f, 1.0f, 0.0f));
+
 }
 
 void Camera::SetShaderVP(Shader* pShader,const char* v_name, const char* p_name) {

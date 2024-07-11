@@ -8,16 +8,20 @@
 
 class Camera : public Component
 {
+    float fov;
+    Camera();
 public:
     static Camera *main; //FIRST INSTANCE
 
-public:
     void Update(double delta) override;
     void Init() override;
-    Camera();
-    Camera(int w, int h);
+    Camera(int w, int h, float fov = 45.0f, float near = 0.1f, float far=100.0f);
+    Camera(float worldSize, float near, float far);
+    
+    
     glm::mat4 GetViewMatrix();
     glm::mat4 GetProjectionMatrix();
+    glm::mat4 GetViewProjectionMatrix();
     void SetShaderVP(Shader* pShader, const char* v_name = "viewMatrix", const char* p_name = "projectionMatrix");
 
 private:

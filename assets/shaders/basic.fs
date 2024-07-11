@@ -5,6 +5,12 @@ in vec2 fragUV;
 in vec3 geomNormal;
 in vec3 fragPos;
 
+uniform sampler2D shadowMaps[10];
+uniform mat4 lightSpaceMatrices[10];
+uniform vec3 lightPositions[10];
+
+uniform int n_lights;
+
 const float ambient = 0.2f;
 
 void main(){

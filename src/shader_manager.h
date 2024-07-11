@@ -7,32 +7,15 @@
 
 class ShaderManager {
 
-    struct ShadowMap {
-        unsigned depthmap;
-        ShadowMap();
-    };
+    double delta_t = 0.0f;
+    unsigned n_lights = 0;
 
-    struct Pass {
-        Shader* pShader;
-        GLuint frameBuffer = 0;
-        Pass(Shader* pShader) : pShader(pShader){};
-        virtual void prepare(Shader*) = 0;
-    };
+    std::vector<Entity*> lightSources;
 
-    struct ShadowMapPass : public Pass {
-        ShadowMapPass(Entity* lightSource);
-        ShadowMap shadowMap;
-        Entity* lightSource;
-        void prepare(Shader* pShader) override;
-    };
+    std::vector<glm::mat4> lightSpaceMatrices;
+    std::vector<glm::vec3> lightPositions;
+    std::vector<GLuint> shadowMaps;
 
-    struct MainShaderPass : public Pass {
-        using Pass::Pass;
-        void prepare(Shader* pShader) override;
-    };
-
-    private:
-    std::vector<std::unique_ptr<Pass>> passes;
     Shader* currentShader;
 
     public:
@@ -53,10 +36,10 @@ class ShaderManager {
 
     bool PreparePass();
 
-    void* RegisterLightSource(Entity* lightSource);
-    void UnregisterLightSource(void* id);
+    void RegisterLightSource(Entity* lightSource);
+    void UnregisterLightSource(Entity* lightSource);
 
-    void UploadShadowMaps();
+    void UpdateDelta(double delta);
 
     ShaderManager(const ShaderManager&) = delete;
     ShaderManager operator=(const ShaderManager&) = delete;

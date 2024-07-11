@@ -79,13 +79,31 @@ void Shader::SetVector4f(const char *name, const glm::vec4 &value, bool useShade
         this->Use();
     glUniform4f(glGetUniformLocation(this->ID, name), value.x, value.y, value.z, value.w);
 }
-#include <iostream>
 void Shader::SetMatrix4(const char *name, const glm::mat4 &matrix, bool useShader)
 {
     if (useShader)
         this->Use();
     glUniformMatrix4fv(glGetUniformLocation(this->ID, name), 1, false, &matrix[0][0]);
 }
+
+void Shader::SetMatrix4Array(const char*name, const glm::mat4* matrices, unsigned count, bool useShader) {
+    if (useShader)
+        this->Use();
+    glUniformMatrix4fv(glGetUniformLocation(this->ID, name), count, false, &matrices[0][0][0]);
+}
+
+void Shader::SetIntegerArray(const char*name, const int* values, unsigned count, bool useShader) {
+    if (useShader)
+        this->Use();
+    glUniform1iv(glGetUniformLocation(this->ID, name), count, values);
+}
+
+void Shader::SetVector3fArray(const char*name, const glm::vec3* values, unsigned count, bool useShader) {
+    if (useShader)
+        this->Use();
+    glUniform3fv(glGetUniformLocation(this->ID, name), count, &values[0][0]);
+}
+
 
 std::string Shader::LoadFromFile(const char *path)
 {

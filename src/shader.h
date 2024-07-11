@@ -26,6 +26,10 @@ public:
     void SetVector4f(const char *name, const glm::vec4 &value, bool useShader = false);
     void SetMatrix4(const char *name, const glm::mat4 &matrix, bool useShader = false);
 
+    void SetMatrix4Array(const char*name, const glm::mat4* matrices, unsigned count, bool useShader = false);
+    void SetIntegerArray(const char*name, const int* values, unsigned count, bool useShader = false);
+    void SetVector3fArray(const char*name, const glm::vec3* values, unsigned count, bool useShader = false);
+
 private:
     std::string LoadFromFile(const char *path);
     void Compile(const char *vertexSource, const char *fragmentSource, const char *geometrySource = nullptr);
