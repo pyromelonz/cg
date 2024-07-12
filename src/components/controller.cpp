@@ -19,6 +19,16 @@ void Controller::Update(double delta) {
         }
     }
 
+    static std::vector<Entity*> lights;
+    if (Input::instance().GetKeyDown(KeyCode::Key_x) || Input::instance().GetMouseButtonDown(MouseButton::LeftButton)) {
+        lights.push_back(transform->SpawnLight(0.0));
+    }
+    if (Input::instance().GetKeyDown(KeyCode::Key_z) || Input::instance().GetMouseButtonDown(MouseButton::RightButton)) {
+        if (!lights.empty()) {
+            EntityManager::instance().RemoveEntity(lights.back());
+            lights.pop_back();
+        }
+    }
 }
 
 void Controller::Init() {
@@ -36,7 +46,7 @@ void Controller::ConnectTransform(Transform* transform) {
     keyActions.push_back(std::make_tuple(Key_s,&Transform::Forwards  ,-speed ));
     keyActions.push_back(std::make_tuple(Key_d,&Transform::Strafe,-speed));
     keyActions.push_back(std::make_tuple(KeyCode::Spacebar,&Transform::Up,speed));
-    keyActions.push_back(std::make_tuple(KeyCode::Shift,&Transform::Up,-speed));    
+    keyActions.push_back(std::make_tuple(KeyCode::Shift,&Transform::Up,-speed));
 
     this->transform = transform;
 }

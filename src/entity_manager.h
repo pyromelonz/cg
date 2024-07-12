@@ -24,6 +24,8 @@ public:
 private:
     EntityManager(){};
 
+    bool initialized = false;
+
     EntityManager(EntityManager const &) = delete;
     void operator=(EntityManager const &) = delete;
     std::vector<std::unique_ptr<Entity>> gameObjects;

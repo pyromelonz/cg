@@ -1,5 +1,8 @@
 #include "transform.h"
 #include "glm/gtc/quaternion.hpp"
+#include "components/light.h"
+#include "components/camera.h"
+#include "components/cube.h"
 
 void Transform::Update(double delta)
 {
@@ -26,4 +29,14 @@ void Transform::Strafe(double amount) {
 }
 void Transform::Up(double amount) {
     Position += glm::vec4(0.0f,amount,0.0f,1.0f);
+}
+Entity* Transform::SpawnLight(double delta) {
+    auto light = std::make_unique<Entity>();
+    auto pLight = light.get();
+    light->addComponent(new Light(glm::vec3(1.0f,1.0f,1.0f)));
+    light->addComponent(new Transform(Position,glm::vec3(0.4f),Rotation));
+    light->addComponent(new Camera(40.0f,0.1f,100.0f));
+    light->addComponent(new Cube(nullptr));
+    EntityManager::instance().AddEntity(std::move(light));
+    return pLight;
 }

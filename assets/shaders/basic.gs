@@ -7,9 +7,9 @@ in vec2 vUv[];
 in vec3 vPos[];
 in vec4 PosLightSpace[][10];
 
-out vec4 FragPosLightSpace[10];
-out vec3 fragPos;
-out vec2 fragUv;
+out vec4 FragPosLightSpace[10]; // Output light space position to fragment shader
+out vec3 fragPos; // Output position to fragment shader
+out vec2 fragUv; // Output uv to fragment shader
 out vec3 geomNormal; // Output geometry normal to fragment shader
 
 void main() {

@@ -60,6 +60,7 @@ void ShaderManager::RegisterLightSource(Entity* lightSource) {
     n_lights = lightSources.size();
     lightSpaceMatrices.resize(n_lights);
     lightPositions.resize(n_lights);
+    lightColors.resize(n_lights);
 
     generateShadowMapArray();
 }
@@ -100,6 +101,7 @@ bool ShaderManager::PreparePass() {
         //update lights
         lightSpaceMatrices[pass] = lightSources[pass]->getComponent<Camera>()->GetViewProjectionMatrix();
         lightPositions[pass] = lightSources[pass]->getComponent<Transform>()->Position;
+        lightColors[pass] = lightSources[pass]->getComponent<Light>()->GetColor();
 
         //render to shadow map
         currentShader =shadowMapShader;
@@ -123,10 +125,12 @@ bool ShaderManager::PreparePass() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         currentShader->Use();
         Camera::main->SetShaderVP(currentShader);
+        currentShader->SetVector3f("viewPos", Camera::main->GetPos());
         currentShader->SetFloat("delta_t", delta_t);
-        currentShader->SetTextureArray("shadowMaps", shadowMapArray, 0);
+        currentShader->SetTextureArray("shadowMaps", shadowMapArray, 1);
         currentShader->SetMatrix4Array("lightSpaceMatrices", lightSpaceMatrices.data(), lightSpaceMatrices.size());
         currentShader->SetVector3fArray("lightPositions", lightPositions.data(), lightPositions.size());
+        currentShader->SetVector3fArray("lightColors", lightColors.data(), lightColors.size());
         currentShader->SetInteger("n_lights", n_lights);
         pass++;
         return true;

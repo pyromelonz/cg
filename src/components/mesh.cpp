@@ -12,17 +12,11 @@ void Mesh::Update(double delta)
 }
 
 void Mesh::Render() {
-    
-    //pShader->Use();
-    /*
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, normalMap);
-    pShader->SetInteger("normalMap",0);
-    */
 
     auto pShader = ShaderManager::instance().CurrentShader();
     pShader->SetMatrix4("modelMatrix", this->pEntity->getComponent<Transform>()->GetMatrix());
     pShader->SetVector3f("objectPosition", this->pEntity->getComponent<Transform>()->Position);
+    pShader->SetTexture("squareTexture", texture(), 0);
     
     glBindVertexArray(vao);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
@@ -35,8 +29,6 @@ void Mesh::Init()
 {
     updatePriority = UpdatePriorities::PRIORITY_RENDER;
     flags |= RENDER_OBJECT;
-    LoadMesh();
-    LoadTexture();
 
     /*
         glGenTextures(1,&normalMap);

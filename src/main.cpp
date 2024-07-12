@@ -99,7 +99,7 @@ int main()
 
     auto cam = std::make_unique<Entity>();
 
-    cam->addComponent(new Transform(glm::vec3(0.0f, 0.0f, 5.0f)));
+    cam->addComponent(new Transform(glm::vec3(-0.0f, 1.5f, 20.0f)));
     cam->addComponent(new Camera(WIDTH, HEIGHT));
     cam->addComponent(new Controller);
     EM.AddEntity(std::move(cam));
@@ -114,21 +114,6 @@ int main()
             EM.AddEntity(std::move(cube));
         }
     }
-
-    auto light1 = std::make_unique<Entity>();
-    light1->addComponent(new Transform(glm::vec3(-5.0, 3.0, 0.0)));
-    light1->addComponent(new Light());
-    light1->addComponent(new Camera(40.0f,0.1f,100.0f));
-    light1->addComponent(new Cube(ShaderManager::instance().mainShader));
-    EM.AddEntity(std::move(light1));
-
-    auto light2 = std::make_unique<Entity>();
-    light2->addComponent(new Transform(glm::vec3(8.0, 6.0, 0.0)));
-    light2->addComponent(new Light());
-    light2->addComponent(new Camera(40.0f,0.1f,100.0f));
-    light2->addComponent(new Cube(ShaderManager::instance().mainShader));
-    light2->getComponent<Transform>()->Rotation = glm::quat(glm::vec3(-1.0f,1.0f,0.0f));
-    EM.AddEntity(std::move(light2));
 
     FrameLimiter limiter(120);
     std::cout << "OpenGL version: " << glGetString(GL_VERSION) << std::endl;
@@ -148,7 +133,6 @@ int main()
     {
         EntityManager::instance().Update(delta_t);
         glfwSwapBuffers(window);
-        glfwPollEvents();
 #ifdef __APPLE__
         if (!hasWindowBeenFixed)
         {
@@ -160,8 +144,9 @@ int main()
             mouse_capture = !mouse_capture;
             glfwSetInputMode(window, GLFW_CURSOR, (mouse_capture * GLFW_CURSOR_DISABLED) | (!mouse_capture*GLFW_CURSOR_NORMAL));
         }
-        
         Input::instance().ClearOnceKeys();
+        glfwPollEvents();
+        
         delta_t = limiter.next_frame();
     }
 

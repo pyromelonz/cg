@@ -24,7 +24,7 @@ void main() {
         PosLightSpace[i] = lightSpaceMatrices[i] * aPos1;
     }
 
-    aPos1.y += sin(delta_t + (objectPosition1.x * objectPosition1.x) + objectPosition1.z) * 2.0;
+    aPos1.y += sin(delta_t + (objectPosition1.x + objectPosition1.z + aPos1.x + aPos1.z)*0.1) * 2.0;
     vPos = aPos1.xyz;
     vUv = uv;
     gl_Position = projectionMatrix * viewMatrix * aPos1;

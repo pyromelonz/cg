@@ -18,6 +18,11 @@ Camera::Camera(int w, int h, float fov, float near, float far) : Camera()
     projection = glm::perspective(glm::radians(fov), (float)w / (float)h, 0.1f, 100.0f);
 }
 
+glm::vec3 Camera::GetPos() const
+{
+    return transform->Position;
+}
+
 Camera::Camera(float worldSize, float near, float far) : Camera()
 {
     projection = glm::ortho(-worldSize, worldSize, -worldSize, worldSize, near, far);
@@ -49,7 +54,7 @@ void Camera::Update(double delta)
     view = glm::lookAt(
         transform->Position,
         transform->Position + transform->Rotation * glm::vec3(0.0f, 0.0f, -1.0f),
-        transform->Rotation * glm::vec3(0.0f, 1.0f, 0.0f));
+        glm::vec3(0.0f, 1.0f, 0.0f));
 
 }
 

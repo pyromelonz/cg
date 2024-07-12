@@ -15,6 +15,7 @@ public:
     void Update(double delta);
     void Init();
     void Render();
+    void Destroy();
     void FixedUpdate();
     template <typename ComponentType>
     ComponentType *getComponent()

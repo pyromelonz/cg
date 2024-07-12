@@ -34,6 +34,7 @@ target_sources(CG PUBLIC
 
 target_include_directories(CG PUBLIC
                             "${PROJECT_BINARY_DIR}"
+                            "${PROJECT_SOURCE_DIR}/vendor"
                             "${PROJECT_SOURCE_DIR}/vendor/glad-4.1/include"
                             "${PROJECT_SOURCE_DIR}/vendor/glfw/include"
                             "${PROJECT_SOURCE_DIR}/vendor/glm/glm"

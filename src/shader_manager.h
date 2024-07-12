@@ -14,6 +14,7 @@ class ShaderManager {
 
     std::vector<glm::mat4> lightSpaceMatrices;
     std::vector<glm::vec3> lightPositions;
+    std::vector<glm::vec3> lightColors;
     std::vector<GLuint> shadowMaps;
 
     GLuint shadowMapArray;

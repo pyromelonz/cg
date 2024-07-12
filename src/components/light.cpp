@@ -7,13 +7,17 @@ void Light::Init() {
 }
 
 void Light::Update(double delta) {
-    pEntity->getComponent<Transform>()->Rotation *= glm::quat(glm::vec3(0.1f * delta, 0.01f * delta, 0.0f));
+    pEntity->getComponent<Transform>()->Forwards(delta);
+}
+
+glm::vec3 Light::GetColor() const {
+    return color;
 }
 
 Light::Light(glm::vec3 color) : color(color) {
     flags = LIGHT_SOURCE;
 }
 
-Light::~Light() {
+void Light::Destroy() {
     ShaderManager::instance().UnregisterLightSource(pEntity);
 }

@@ -6,6 +6,10 @@
 void EntityManager::AddEntity(std::unique_ptr<Entity> &&gameObject)
 {
     gameObjects.push_back(std::move(gameObject));
+    if (initialized)
+    {
+        gameObjects.back()->Init();
+    }
 }
 
 void EntityManager::RemoveEntity(Entity *gameObject)
@@ -14,6 +18,7 @@ void EntityManager::RemoveEntity(Entity *gameObject)
     {
         if (gameObjects[i].get() == gameObject)
         {
+            gameObjects[i]->Destroy();
             gameObjects.erase(gameObjects.begin() + i);
         }
     }
@@ -25,6 +30,7 @@ void EntityManager::Init()
     {
         p->Init();
     }
+    initialized = true;
 }
 
 #include <iostream>

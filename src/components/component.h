@@ -21,6 +21,7 @@ public:
     virtual void Update(double delta) = 0; //consider a delta time parameter
     virtual void FixedUpdate() {};
     virtual void Init() = 0;
+    virtual void Destroy() {};
     virtual void Render() {};
 uint8_t GetUpdatePriority() const;
 

@@ -1,6 +1,9 @@
 #include "cube.h"
 #include <cstring>
 #include "transform.h"
+#include <iostream>
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
 
 static constexpr
 std::array<float,72> cube_vertices = {
@@ -37,42 +40,42 @@ std::array<float,72> cube_vertices = {
 };
 
 static constexpr
-std::array<GLfloat,48> cube_uvCoords = {
+std::array<GLfloat, 48> cube_uvCoords = {
     // Front face
-    1.0f / 3.0f, 1.0f / 2.0f,  // Bottom-left
-    2.0f / 3.0f, 1.0f / 2.0f,  // Bottom-right
-    2.0f / 3.0f, 1.0f,         // Top-right
-    1.0f / 3.0f, 1.0f,         // Top-left
+    0.0, 1.0, // Bottom-left
+    1.0, 1.0, // Bottom-right
+    1.0, 0.0, // Top-right
+    0.0, 0.0, // Top-left
 
     // Back face
-    2.0f / 3.0f, 1.0f / 2.0f,  // Bottom-left
-    1.0f, 1.0f / 2.0f,         // Bottom-right
-    1.0f, 1.0f,                // Top-right
-    2.0f / 3.0f, 1.0f,         // Top-left
+    0.0, 1.0, // Bottom-left
+    1.0, 1.0, // Bottom-right
+    1.0, 0.0, // Top-right
+    0.0, 0.0, // Top-left
 
     // Left face
-    0.0f, 0.0f,                // Bottom-left
-    1.0f / 3.0f, 0.0f,         // Bottom-right
-    1.0f / 3.0f, 1.0f / 2.0f,  // Top-right
-    0.0f, 1.0f / 2.0f,         // Top-left
+    0.0, 1.0, // Bottom-left
+    1.0, 1.0, // Bottom-right
+    1.0, 0.0, // Top-right
+    0.0, 0.0, // Top-left
 
     // Right face
-    2.0f / 3.0f, 0.0f,         // Bottom-left
-    1.0f, 0.0f,                // Bottom-right
-    1.0f, 1.0f / 2.0f,         // Top-right
-    2.0f / 3.0f, 1.0f / 2.0f,  // Top-left
+    0.0, 1.0, // Bottom-left
+    1.0, 1.0, // Bottom-right
+    1.0, 0.0, // Top-right
+    0.0, 0.0, // Top-left
 
     // Top face
-    0.0f, 1.0f / 2.0f,         // Bottom-left
-    1.0f / 3.0f, 1.0f / 2.0f,  // Bottom-right
-    1.0f / 3.0f, 1.0f,         // Top-right
-    0.0f, 1.0f,                // Top-left
+    0.0, 1.0, // Bottom-left
+    1.0, 1.0, // Bottom-right
+    1.0, 0.0, // Top-right
+    0.0, 0.0, // Top-left
 
     // Bottom face
-    1.0f / 3.0f, 0.0f,         // Bottom-left
-    2.0f / 3.0f, 0.0f,         // Bottom-right
-    2.0f / 3.0f, 1.0f / 2.0f,  // Top-right
-    1.0f / 3.0f, 1.0f / 2.0f   // Top-left
+    0.0, 1.0, // Bottom-left
+    1.0, 1.0, // Bottom-right
+    1.0, 0.0, // Top-right
+    0.0, 0.0  // Top-left
 };
 
 
@@ -107,4 +110,35 @@ Cube::Cube(Shader *shader) : Mesh(shader,
     cube_vertices.data(), cube_vertices.size(),
     cube_indices.data(), cube_indices.size(),
     cube_uvCoords.data(),cube_uvCoords.size())
-{}
+{
+
+}
+
+GLuint Cube::texture()
+{
+    static GLuint texture = 0;
+
+    if (!texture) {
+        glGenTextures(1, &texture);
+        glBindTexture(GL_TEXTURE_2D, texture);
+    
+    
+        // Set the texture parameters
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    
+        int width, height, nrChannels;
+        stbi_set_flip_vertically_on_load(true);
+    
+        unsigned char *data = stbi_load("assets/textures/image.png", &width, &height, &nrChannels, 0);
+        if (data)
+        {
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+            glGenerateMipmap(GL_TEXTURE_2D);
+        }
+        stbi_image_free(data);
+    }
+    return texture;
+}

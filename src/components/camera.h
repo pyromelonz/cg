@@ -17,7 +17,7 @@ public:
     void Init() override;
     Camera(int w, int h, float fov = 45.0f, float near = 0.1f, float far=100.0f);
     Camera(float worldSize, float near, float far);
-    
+    glm::vec3 GetPos() const;
     
     glm::mat4 GetViewMatrix();
     glm::mat4 GetProjectionMatrix();

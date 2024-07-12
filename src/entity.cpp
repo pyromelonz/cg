@@ -30,6 +30,12 @@ void Entity::Init()
     }
 }
 
+void Entity::Destroy()
+{
+    for (auto &c : components)
+        c->Destroy();
+}
+
 void Entity::FixedUpdate()
 {
     for (auto &c : components)
